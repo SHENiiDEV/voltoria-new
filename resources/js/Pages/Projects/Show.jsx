@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Head, useForm, Link, router } from '@inertiajs/react';
-import { Download, FileText, CheckCircle2, ShieldAlert, CreditCard, Lock, Sparkles, TrendingUp, BarChart3, Users, AlertTriangle, ArrowLeft, RefreshCw } from 'lucide-react';
+import { Download, FileText, CheckCircle2, CreditCard, Lock, Sparkles, TrendingUp, BarChart3, Users, AlertTriangle, ArrowLeft, Wallet, Plus, ShieldAlert } from 'lucide-react';
 import MagicLoaderOverlay from '@/Components/MagicLoaderOverlay';
 
-export default function Show({ auth, project, payment }) {
+export default function Show({ auth, project, payment, wallet_balance = 0 }) {
     const [activeTab, setActiveTab] = useState('summary');
     const [showPayModal, setShowPayModal] = useState(false);
+    const [showTopUpModal, setShowTopUpModal] = useState(false);
     const [isPolling, setIsPolling] = useState(project.status === 'processing');
 
-    const { post: checkoutPost, processing: checkoutProcessing } = useForm({
+    const { post: checkoutPost, processing: checkoutProcessing, errors: checkoutErrors } = useForm({
         reference: '',
+        pay_from_wallet: false,
     });
 
-    // Long Polling if project is currently processing
     useEffect(() => {
         if (project.status !== 'processing') return;
 
@@ -33,6 +35,16 @@ export default function Show({ auth, project, payment }) {
     }, [project.status, project.id]);
 
     const data = project.generated_json || {};
+    const paymentAmount = (parseFloat(payment?.amount) || 499.00);
+    const hasEnoughBalance = (parseFloat(wallet_balance) || 0) >= paymentAmount;
+
+    const handlePayFromWallet = (e) => {
+        e.preventDefault();
+        checkoutPost(route('projects.checkout', project.id), {
+            data: { pay_from_wallet: true },
+            onSuccess: () => setShowPayModal(false),
+        });
+    };
 
     const handlePaySubmit = (e) => {
         e.preventDefault();
@@ -50,6 +62,12 @@ export default function Show({ auth, project, payment }) {
 
             <MagicLoaderOverlay isProcessing={isPolling} />
 
+            <WalletTopUpModal
+                isOpen={showTopUpModal}
+                onClose={() => setShowTopUpModal(false)}
+                currentBalance={wallet_balance}
+            />
+
             <div className="py-12 bg-slate-950 min-h-screen text-slate-100 selection:bg-indigo-500">
                 <div className="max-w-6xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
@@ -64,7 +82,7 @@ export default function Show({ auth, project, payment }) {
                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/20 transition-all"
                             >
                                 <Download className="w-4 h-4" />
-                                {project.is_paid ? 'Export Official PDF' : 'Download Preview PDF'}
+                                {project.is_paid ? 'Export 6-Page Official PDF' : 'Download Preview PDF'}
                             </a>
                         </div>
                     </div>
@@ -79,7 +97,7 @@ export default function Show({ auth, project, payment }) {
                                 <div>
                                     <h4 className="text-base font-bold text-white">Watermarked Draft Preview Mode</h4>
                                     <p className="text-xs text-slate-400 mt-0.5">
-                                        Invoice #{payment?.gateway_reference || 'INV-PENDING'} for €{payment?.amount || '499'} is pending. Settle invoice to remove watermarks and unlock official PDF export.
+                                        Amount due: €{paymentAmount.toFixed(2)}. Settle invoice or pay from profile wallet balance to unlock clean official 6-page PDF.
                                     </p>
                                 </div>
                             </div>
@@ -87,7 +105,7 @@ export default function Show({ auth, project, payment }) {
                                 onClick={() => setShowPayModal(true)}
                                 className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm transition-all whitespace-nowrap shadow-lg shadow-amber-500/20"
                             >
-                                Unlock Official Version (€{payment?.amount || '499'})
+                                Unlock Official Version (€{paymentAmount.toFixed(2)})
                             </button>
                         </div>
                     )}
@@ -268,14 +286,16 @@ export default function Show({ auth, project, payment }) {
                             </div>
 
                             <div className="bg-slate-900/60 border border-slate-800/80 p-6 rounded-2xl">
-                                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-4">3-Year Financial Forecast (P&L)</h3>
+                                <h3 className="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-4">3-Year Financial Forecast (P&L Statement)</h3>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left text-sm border-collapse">
                                         <thead>
                                             <tr className="border-b border-slate-800 bg-slate-950 text-slate-400 text-xs">
                                                 <th className="p-3">Period</th>
                                                 <th className="p-3">Revenue</th>
-                                                <th className="p-3">Operating Expense (OpEx)</th>
+                                                <th className="p-3">COGS</th>
+                                                <th className="p-3">Gross Profit</th>
+                                                <th className="p-3">OpEx</th>
                                                 <th className="p-3">EBITDA</th>
                                                 <th className="p-3">Net Profit</th>
                                             </tr>
@@ -285,6 +305,8 @@ export default function Show({ auth, project, payment }) {
                                                 <tr key={idx} className="hover:bg-slate-800/30">
                                                     <td className="p-3 font-bold text-white">{row.year}</td>
                                                     <td className="p-3 text-emerald-400 font-semibold">{row.revenue}</td>
+                                                    <td className="p-3 text-slate-400">{row.cogs || '—'}</td>
+                                                    <td className="p-3 text-indigo-200">{row.gross_profit || '—'}</td>
                                                     <td className="p-3 text-slate-400">{row.opex}</td>
                                                     <td className="p-3 text-indigo-300 font-semibold">{row.ebitda}</td>
                                                     <td className="p-3 text-cyan-400 font-bold">{row.net_profit}</td>
@@ -349,13 +371,13 @@ export default function Show({ auth, project, payment }) {
                 </div>
             </div>
 
-            {/* Custom High-Ticket Checkout Modal */}
+            {/* Custom Checkout Modal */}
             {showPayModal && (
                 <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-6">
                     <div className="bg-slate-900 border border-slate-800 rounded-3xl max-w-lg w-full p-8 shadow-2xl space-y-6 relative">
                         <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                                <CreditCard className="w-5 h-5 text-indigo-400" /> Settle Invoice & Unlock PDF
+                                <CreditCard className="w-5 h-5 text-indigo-400" /> Settle Invoice & Unlock 6-Page PDF
                             </h3>
                             <button onClick={() => setShowPayModal(false)} className="text-slate-400 hover:text-white">✕</button>
                         </div>
@@ -365,18 +387,51 @@ export default function Show({ auth, project, payment }) {
                                 <span className="text-slate-400">Invoice Reference</span>
                                 <span className="font-mono text-indigo-300 font-bold">{payment?.gateway_reference || 'INV-PENDING'}</span>
                             </div>
-                            <div className="flex justify-between">
-                                <span className="text-slate-400">Total High-Ticket Amount</span>
-                                <span className="text-emerald-400 font-bold text-sm">€{payment?.amount || '499.00'} EUR</span>
+                            <div className="flex justify-between border-t border-slate-800/60 pt-2">
+                                <span className="text-slate-400">Profile Wallet Balance</span>
+                                <span className="font-bold text-emerald-400">€{(parseFloat(wallet_balance) || 0).toFixed(2)}</span>
                             </div>
+                            <div className="flex justify-between">
+                                <span className="text-slate-400">Amount Due</span>
+                                <span className="text-white font-bold text-sm">€{paymentAmount.toFixed(2)} EUR</span>
+                            </div>
+                        </div>
+
+                        {/* Pay from Wallet Option */}
+                        {hasEnoughBalance ? (
+                            <button
+                                onClick={handlePayFromWallet}
+                                disabled={checkoutProcessing}
+                                className="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-500 hover:opacity-95 text-slate-950 font-extrabold text-sm shadow-xl transition-all flex items-center justify-center gap-2"
+                            >
+                                <Wallet className="w-5 h-5" /> Deduct €{paymentAmount.toFixed(2)} from Wallet & Unlock PDF
+                            </button>
+                        ) : (
+                            <div className="bg-indigo-950/40 border border-indigo-500/30 rounded-2xl p-4 flex items-center justify-between gap-3 text-xs">
+                                <div>
+                                    <div className="font-bold text-indigo-300">Insufficient Wallet Balance</div>
+                                    <div className="text-slate-400">Top up €{(paymentAmount - parseFloat(wallet_balance)).toFixed(2)} to pay from wallet.</div>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => { setShowPayModal(false); setShowTopUpModal(true); }}
+                                    className="px-3.5 py-2 rounded-xl bg-indigo-500 text-white font-bold text-xs whitespace-nowrap"
+                                >
+                                    + Top Up Wallet
+                                </button>
+                            </div>
+                        )}
+
+                        <div className="relative border-t border-slate-800 pt-4 text-center">
+                            <span className="text-xs text-slate-500 font-medium">Or enter manual wire transfer reference</span>
                         </div>
 
                         <form onSubmit={handlePaySubmit} className="space-y-4">
                             <div>
-                                <label className="block text-xs font-bold text-slate-300 mb-1">Payment Reference / Wire Transfer ID</label>
+                                <label className="block text-xs font-bold text-slate-300 mb-1">Manual Reference ID</label>
                                 <input
                                     type="text"
-                                    placeholder="e.g. WIRE-948201 or Ezzygate Ref"
+                                    placeholder="e.g. WIRE-948201"
                                     required
                                     className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500"
                                 />
@@ -385,9 +440,9 @@ export default function Show({ auth, project, payment }) {
                             <button
                                 type="submit"
                                 disabled={checkoutProcessing}
-                                className="w-full py-3.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-slate-950 font-bold text-sm shadow-xl transition-all flex items-center justify-center gap-2"
+                                className="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-2"
                             >
-                                <CheckCircle2 className="w-4 h-4" /> Confirm & Unlock Official Document
+                                <CheckCircle2 className="w-4 h-4" /> Confirm Wire Reference
                             </button>
                         </form>
                     </div>

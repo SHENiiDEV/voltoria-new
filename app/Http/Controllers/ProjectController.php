@@ -15,11 +15,13 @@ use Illuminate\Http\JsonResponse;
 class ProjectController extends Controller
 {
     /**
-     * Display list of user projects.
+     * Display list of user projects and wallet status.
      */
     public function index(Request $request): Response
     {
-        $projects = $request->user()->projects()
+        $user = $request->user();
+
+        $projects = $user->projects()
             ->with('latestPayment')
             ->latest()
             ->get()
@@ -39,21 +41,39 @@ class ProjectController extends Controller
                 ];
             });
 
+        $recentTransactions = $user->payments()
+            ->latest()
+            ->take(10)
+            ->get()
+            ->map(fn (Payment $p) => [
+                'id' => $p->id,
+                'type' => $p->type,
+                'amount' => $p->amount,
+                'currency' => $p->currency,
+                'gateway_reference' => $p->gateway_reference,
+                'status' => $p->status,
+                'created_at' => $p->created_at->format('M d, Y H:i'),
+            ]);
+
         return Inertia::render('Dashboard', [
             'projects' => $projects,
+            'wallet_balance' => (float) $user->balance,
+            'transactions' => $recentTransactions,
         ]);
     }
 
     /**
      * Show form to create a new business plan brief.
      */
-    public function create(): Response
+    public function create(Request $request): Response
     {
-        return Inertia::render('Projects/Create');
+        return Inertia::render('Projects/Create', [
+            'wallet_balance' => (float) $request->user()->balance,
+        ]);
     }
 
     /**
-     * Store new brief project and dispatch generation job.
+     * Store new brief project, deduct from wallet if balance exists, and dispatch generation job.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -63,6 +83,7 @@ class ProjectController extends Controller
             'tier' => 'nullable|string|in:starter,pro,enterprise',
         ]);
 
+        $user = $request->user();
         $tier = $validated['tier'] ?? 'pro';
         $amounts = [
             'starter' => 149.00,
@@ -71,20 +92,30 @@ class ProjectController extends Controller
         ];
         $amount = $amounts[$tier] ?? 499.00;
 
-        $project = $request->user()->projects()->create([
+        $hasEnoughBalance = $user->hasBalance($amount);
+        $paymentStatus = $hasEnoughBalance ? 'paid' : 'pending';
+
+        // Deduct from user wallet balance if sufficient funds
+        if ($hasEnoughBalance) {
+            $user->balance = (float) $user->balance - $amount;
+            $user->save();
+        }
+
+        $project = $user->projects()->create([
             'title' => $validated['title'] ?: 'New Business Plan',
             'brief_prompt' => $validated['brief_prompt'],
             'status' => 'draft',
         ]);
 
-        // Create pending payment invoice
+        // Create payment record
         Payment::create([
-            'user_id' => $request->user()->id,
+            'user_id' => $user->id,
             'project_id' => $project->id,
+            'type' => 'generation',
             'amount' => $amount,
             'currency' => 'EUR',
-            'gateway_reference' => 'INV-' . strtoupper(substr(md5(uniqid()), 0, 8)),
-            'status' => 'pending',
+            'gateway_reference' => $hasEnoughBalance ? 'WALLET-DEDUCT-' . strtoupper(substr(md5(uniqid()), 0, 6)) : 'INV-' . strtoupper(substr(md5(uniqid()), 0, 8)),
+            'status' => $paymentStatus,
         ]);
 
         // Dispatch background job or process immediately
@@ -92,13 +123,16 @@ class ProjectController extends Controller
             GenerateBusinessPlanJob::dispatchSync($project);
         } else {
             GenerateBusinessPlanJob::dispatch($project);
-            // Also attempt instant generation if database queue worker is not running in local dev
             app(DeepSeekArchitect::class)->generateBusinessPlan($project->brief_prompt, $project->title);
             $job = new GenerateBusinessPlanJob($project);
             $job->handle(app(DeepSeekArchitect::class));
         }
 
-        return redirect()->route('projects.show', $project->id);
+        $message = $hasEnoughBalance 
+            ? "Business plan generated and paid from wallet balance (€" . number_format($amount, 2) . ")! Official PDF unlocked."
+            : "Business plan generated in preview draft mode. Settle invoice or top up wallet to unlock official PDF.";
+
+        return redirect()->route('projects.show', $project->id)->with('success', $message);
     }
 
     /**
@@ -129,6 +163,7 @@ class ProjectController extends Controller
                 'gateway_reference' => $payment->gateway_reference,
                 'status' => $payment->status,
             ] : null,
+            'wallet_balance' => (float) $request->user()->balance,
         ]);
     }
 
@@ -145,6 +180,7 @@ class ProjectController extends Controller
             'status' => $project->status,
             'is_paid' => $project->isPaid(),
             'has_json' => !empty($project->generated_json),
+            'wallet_balance' => (float) $request->user()->balance,
         ]);
     }
 }

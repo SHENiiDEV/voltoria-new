@@ -2,19 +2,28 @@ import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import NavLink from '@/Components/NavLink';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { Sparkles, ChevronDown, User as UserIcon, LogOut, FileText, PlusCircle } from 'lucide-react';
+import { Sparkles, ChevronDown, Wallet, Plus } from 'lucide-react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
-
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showTopUpModal, setShowTopUpModal] = useState(false);
+
+    const balance = (parseFloat(user.balance) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
     return (
         <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white relative overflow-hidden flex flex-col justify-between">
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-indigo-600/15 via-blue-600/5 to-transparent blur-3xl pointer-events-none -z-10" />
+
+            <WalletTopUpModal
+                isOpen={showTopUpModal}
+                onClose={() => setShowTopUpModal(false)}
+                currentBalance={user.balance}
+            />
 
             <div>
                 {/* Main Navigation Bar */}
@@ -42,7 +51,22 @@ export default function AuthenticatedLayout({ header, children }) {
                                 </div>
                             </div>
 
-                            <div className="hidden sm:flex sm:items-center">
+                            <div className="hidden sm:flex sm:items-center gap-4">
+                                {/* Wallet Balance Badge */}
+                                <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-1.5 shadow-md">
+                                    <Wallet className="w-4 h-4 text-emerald-400" />
+                                    <div className="text-xs font-bold text-white">
+                                        <span className="text-slate-400 font-normal">Balance:</span> €{balance}
+                                    </div>
+                                    <button
+                                        onClick={() => setShowTopUpModal(true)}
+                                        className="ml-1 px-2.5 py-1 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-[11px] transition-all flex items-center gap-1 shadow-sm"
+                                    >
+                                        <Plus className="w-3 h-3" /> Top Up
+                                    </button>
+                                </div>
+
+                                {/* User Dropdown */}
                                 <div className="relative">
                                     <Dropdown>
                                         <Dropdown.Trigger>
@@ -60,7 +84,7 @@ export default function AuthenticatedLayout({ header, children }) {
 
                                         <Dropdown.Content>
                                             <Dropdown.Link href={route('profile.edit')}>
-                                                Profile Settings
+                                                Profile & Wallet
                                             </Dropdown.Link>
                                             <Dropdown.Link
                                                 href={route('logout')}
@@ -125,6 +149,18 @@ export default function AuthenticatedLayout({ header, children }) {
                             ' sm:hidden border-t border-slate-800 bg-slate-950 p-4 space-y-3'
                         }
                     >
+                        <div className="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800 mb-2">
+                            <div className="text-xs text-slate-300 font-bold">
+                                Wallet: <span className="text-emerald-400">€{balance}</span>
+                            </div>
+                            <button
+                                onClick={() => setShowTopUpModal(true)}
+                                className="px-3 py-1 rounded-lg bg-indigo-500 text-white font-bold text-xs"
+                            >
+                                + Top Up
+                            </button>
+                        </div>
+
                         <ResponsiveNavLink
                             href={route('dashboard')}
                             active={route().current('dashboard')}
@@ -143,7 +179,7 @@ export default function AuthenticatedLayout({ header, children }) {
                             <div className="text-xs text-slate-400">{user.email}</div>
                             <div className="mt-3 space-y-1">
                                 <ResponsiveNavLink href={route('profile.edit')}>
-                                    Profile Settings
+                                    Profile & Wallet
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     method="post"

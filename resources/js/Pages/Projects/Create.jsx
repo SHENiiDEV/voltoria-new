@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Head, useForm, Link } from '@inertiajs/react';
-import { Sparkles, ArrowLeft, Lightbulb, Zap, Rocket, FileText } from 'lucide-react';
+import { Sparkles, ArrowLeft, Lightbulb, Wallet, Plus, AlertCircle, CheckCircle2 } from 'lucide-react';
 import MagicLoaderOverlay from '@/Components/MagicLoaderOverlay';
 
-export default function Create({ auth }) {
+export default function Create({ auth, wallet_balance = 0 }) {
     const queryParams = new URLSearchParams(window.location.search);
     const initialTier = queryParams.get('tier') || 'pro';
 
@@ -15,12 +16,22 @@ export default function Create({ auth }) {
     });
 
     const [isGenerating, setIsGenerating] = useState(false);
+    const [showTopUpModal, setShowTopUpModal] = useState(false);
+
+    const TIER_PRICES = {
+        starter: 149,
+        pro: 499,
+        enterprise: 1499,
+    };
+
+    const selectedPrice = TIER_PRICES[data.tier] || 499;
+    const hasEnoughBalance = (parseFloat(wallet_balance) || 0) >= selectedPrice;
 
     const PRESETS = [
         {
             label: "Startup Visa Memorandum",
             title: "Voltoria AI - European Startup Visa Application",
-            prompt: "We are building Voltoria AI, an automated AI business plan architect for founders and SME applicants. We target high-ticket €149-€1499 pricing per generated investment document. Our primary market is European startup visa applicants and tech founders looking for 30-second investor memorandums with 3-year P&L, unit economics (CAC/LTV), and market TAM/SAM/SOM breakdown."
+            prompt: "We are building Voltoria AI, an automated business plan architect for founders and SME applicants. We target high-ticket €149-€1499 pricing per generated investment document. Our primary market is European startup visa applicants and tech founders looking for 30-second investor memorandums with 3-year P&L, unit economics (CAC/LTV), and market TAM/SAM/SOM breakdown."
         },
         {
             label: "B2B SaaS Seed Round",
@@ -59,12 +70,50 @@ export default function Create({ auth }) {
             
             <MagicLoaderOverlay isProcessing={isGenerating || processing} />
 
+            <WalletTopUpModal
+                isOpen={showTopUpModal}
+                onClose={() => setShowTopUpModal(false)}
+                currentBalance={wallet_balance}
+            />
+
             <div className="py-12 bg-slate-950 min-h-screen text-slate-100 selection:bg-indigo-500">
                 <div className="max-w-4xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
-                    <Link href={route('dashboard')} className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
-                        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
-                    </Link>
+                    <div className="flex items-center justify-between">
+                        <Link href={route('dashboard')} className="inline-flex items-center gap-2 text-sm text-slate-400 hover:text-white transition-colors">
+                            <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+                        </Link>
+
+                        {/* Balance Header Badge */}
+                        <div className="flex items-center gap-3 bg-slate-900 border border-slate-800 rounded-2xl px-4 py-2 text-xs">
+                            <Wallet className="w-4 h-4 text-emerald-400" />
+                            <span>Wallet Balance: <strong className="text-white">€{(parseFloat(wallet_balance) || 0).toFixed(2)}</strong></span>
+                            <button
+                                onClick={() => setShowTopUpModal(true)}
+                                className="px-2.5 py-1 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-[11px] transition-all flex items-center gap-1"
+                            >
+                                <Plus className="w-3 h-3" /> Top Up
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Low Balance Alert Banner */}
+                    {!hasEnoughBalance && (
+                        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 flex items-center justify-between gap-4">
+                            <div className="flex items-center gap-3">
+                                <AlertCircle className="w-5 h-5 text-amber-400 shrink-0" />
+                                <div className="text-xs text-slate-300">
+                                    <strong className="text-amber-300">Insufficient Wallet Balance:</strong> Available €{(parseFloat(wallet_balance) || 0).toFixed(2)}, selected tier cost €{selectedPrice.toFixed(2)}. Top up to instantly unlock the official PDF upon generation.
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => setShowTopUpModal(true)}
+                                className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs whitespace-nowrap"
+                            >
+                                Top Up Wallet (€{selectedPrice})
+                            </button>
+                        </div>
+                    )}
 
                     {/* Presets Bar */}
                     <div className="bg-slate-900/60 border border-slate-800/80 p-5 rounded-2xl">
@@ -148,7 +197,7 @@ export default function Create({ auth }) {
                             disabled={processing || !data.brief_prompt}
                             className="w-full py-4 rounded-2xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-bold text-base shadow-xl shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                         >
-                            <Sparkles className="w-5 h-5" /> Generate Business Plan Now
+                            <Sparkles className="w-5 h-5" /> Generate Business Plan {hasEnoughBalance ? `(Deduct €${selectedPrice} from Wallet)` : '(Preview Draft)'}
                         </button>
                     </form>
                 </div>

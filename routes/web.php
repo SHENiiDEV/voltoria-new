@@ -4,6 +4,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PdfExportController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\WalletController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,6 +26,8 @@ Route::get('/refund', fn () => Inertia::render('Legal/Refund'))->name('legal.ref
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [ProjectController::class, 'index'])->name('dashboard');
     
+    Route::post('/wallet/topup', [WalletController::class, 'topup'])->name('wallet.topup');
+
     Route::get('/projects/create', [ProjectController::class, 'create'])->name('projects.create');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::get('/projects/{project}', [ProjectController::class, 'show'])->name('projects.show');
