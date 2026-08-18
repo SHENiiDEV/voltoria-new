@@ -5,7 +5,7 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Link, usePage } from '@inertiajs/react';
 import { useState } from 'react';
-import { Sparkles, ChevronDown, Wallet, Plus } from 'lucide-react';
+import { ChevronDown, Wallet, Plus, Sparkles, LayoutDashboard, PlusCircle } from 'lucide-react';
 
 export default function AuthenticatedLayout({ header, children }) {
     const user = usePage().props.auth.user;
@@ -17,7 +17,7 @@ export default function AuthenticatedLayout({ header, children }) {
     return (
         <div className="min-h-screen bg-slate-950 text-slate-100 font-sans antialiased selection:bg-indigo-500 selection:text-white relative overflow-hidden flex flex-col justify-between">
             {/* Ambient Background Glows */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-gradient-to-b from-indigo-600/15 via-blue-600/5 to-transparent blur-3xl pointer-events-none -z-10" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-indigo-600/15 via-blue-600/5 to-transparent blur-3xl pointer-events-none -z-10" />
 
             <WalletTopUpModal
                 isOpen={showTopUpModal}
@@ -27,40 +27,45 @@ export default function AuthenticatedLayout({ header, children }) {
 
             <div>
                 {/* Main Navigation Bar */}
-                <nav className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40">
+                <nav className="border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl sticky top-0 z-40">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="flex h-20 justify-between items-center">
-                            <div className="flex items-center gap-8">
-                                <Link href="/" className="hover:scale-105 transition-transform">
+                        <div className="flex h-16 justify-between items-center">
+                            
+                            {/* Left Brand & Links */}
+                            <div className="flex items-center gap-6">
+                                <Link href="/" className="hover:opacity-90 transition-opacity">
                                     <ApplicationLogo />
                                 </Link>
 
-                                <div className="hidden space-x-6 sm:flex items-center">
+                                <div className="hidden space-x-2 sm:flex items-center">
                                     <NavLink
                                         href={route('dashboard')}
                                         active={route().current('dashboard')}
                                     >
+                                        <LayoutDashboard className="w-3.5 h-3.5" />
                                         My Business Plans
                                     </NavLink>
                                     <NavLink
                                         href={route('projects.create')}
                                         active={route().current('projects.create')}
                                     >
+                                        <PlusCircle className="w-3.5 h-3.5 text-indigo-400" />
                                         Create Brief
                                     </NavLink>
                                 </div>
                             </div>
 
-                            <div className="hidden sm:flex sm:items-center gap-4">
+                            {/* Right Controls */}
+                            <div className="hidden sm:flex sm:items-center gap-3">
                                 {/* Wallet Balance Badge */}
-                                <div className="flex items-center gap-2 bg-slate-900 border border-slate-800 rounded-xl px-3.5 py-1.5 shadow-md">
+                                <div className="flex items-center gap-2 bg-slate-900/90 border border-slate-800/80 rounded-xl px-3 py-1.5 shadow-sm">
                                     <Wallet className="w-4 h-4 text-emerald-400" />
                                     <div className="text-xs font-bold text-white">
-                                        <span className="text-slate-400 font-normal">Balance:</span> €{balance}
+                                        <span className="text-slate-400 font-normal mr-1">Wallet:</span>€{balance}
                                     </div>
                                     <button
                                         onClick={() => setShowTopUpModal(true)}
-                                        className="ml-1 px-2.5 py-1 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-[11px] transition-all flex items-center gap-1 shadow-sm"
+                                        className="ml-1 px-2.5 py-1 rounded-lg bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-bold text-[11px] transition-all flex items-center gap-1 shadow-sm"
                                     >
                                         <Plus className="w-3 h-3" /> Top Up
                                     </button>
@@ -72,9 +77,9 @@ export default function AuthenticatedLayout({ header, children }) {
                                         <Dropdown.Trigger>
                                             <button
                                                 type="button"
-                                                className="inline-flex items-center gap-2 rounded-xl bg-slate-900 border border-slate-800 px-4 py-2 text-xs font-semibold text-slate-300 transition-all hover:text-white hover:border-slate-700 focus:outline-none shadow-md"
+                                                className="inline-flex items-center gap-2 rounded-xl bg-slate-900/90 border border-slate-800/80 px-3.5 py-1.5 text-xs font-semibold text-slate-300 transition-all hover:text-white hover:border-slate-700 focus:outline-none shadow-sm"
                                             >
-                                                <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-blue-500 flex items-center justify-center text-white font-bold text-[10px]">
+                                                <div className="w-5 h-5 rounded-full bg-gradient-to-tr from-indigo-500 to-blue-500 flex items-center justify-center text-white font-bold text-[10px]">
                                                     {user.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <span>{user.name}</span>
@@ -151,7 +156,7 @@ export default function AuthenticatedLayout({ header, children }) {
                     >
                         <div className="flex items-center justify-between bg-slate-900 p-3 rounded-xl border border-slate-800 mb-2">
                             <div className="text-xs text-slate-300 font-bold">
-                                Wallet: <span className="text-emerald-400">€{balance}</span>
+                                Wallet Balance: <span className="text-emerald-400">€{balance}</span>
                             </div>
                             <button
                                 onClick={() => setShowTopUpModal(true)}
@@ -195,8 +200,8 @@ export default function AuthenticatedLayout({ header, children }) {
 
                 {/* Sub-Header Banner (Title) */}
                 {header && (
-                    <header className="bg-slate-900/60 border-b border-slate-800/80 backdrop-blur-sm">
-                        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+                    <header className="bg-slate-900/40 border-b border-slate-800/80 backdrop-blur-sm py-4">
+                        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                             {header}
                         </div>
                     </header>
