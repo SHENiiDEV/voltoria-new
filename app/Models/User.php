@@ -15,9 +15,17 @@ class User extends Authenticatable
 
     protected $fillable = [
         'name',
+        'surname',
         'email',
+        'phone_number',
+        'date_of_birth',
+        'address_line1',
+        'city',
+        'country',
+        'postcode',
         'password',
         'balance',
+        'terms_accepted_at',
         'is_admin',
     ];
 
@@ -30,6 +38,8 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'date_of_birth' => 'date',
+            'terms_accepted_at' => 'datetime',
             'password' => 'hashed',
             'balance' => 'decimal:2',
             'is_admin' => 'boolean',
@@ -49,5 +59,10 @@ class User extends Authenticatable
     public function hasBalance(float $amount): bool
     {
         return (float) $this->balance >= $amount;
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim($this->name . ' ' . ($this->surname ?? ''));
     }
 }
