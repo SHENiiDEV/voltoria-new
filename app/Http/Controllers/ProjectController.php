@@ -37,6 +37,7 @@ class ProjectController extends Controller
                     'created_at' => $project->created_at->format('M d, Y H:i'),
                     'payment' => $project->latestPayment ? [
                         'id' => $project->latestPayment->id,
+                        'service_name' => $project->latestPayment->getFormattedServiceName(),
                         'amount' => $project->latestPayment->amount,
                         'currency' => $project->latestPayment->currency,
                         'status' => $project->latestPayment->status,
@@ -51,6 +52,7 @@ class ProjectController extends Controller
             ->map(fn (Payment $p) => [
                 'id' => $p->id,
                 'type' => $p->type,
+                'service_name' => $p->getFormattedServiceName(),
                 'amount' => $p->amount,
                 'currency' => $p->currency,
                 'gateway_reference' => $p->gateway_reference,
@@ -93,7 +95,14 @@ class ProjectController extends Controller
             'pro' => 499.00,
             'enterprise' => 1499.00,
         ];
+        $serviceNames = [
+            'starter' => 'Starter Business Brief Package (€149)',
+            'pro' => 'Pro Venture Institutional Memorandum (€499)',
+            'enterprise' => 'Enterprise White-Label Package (€1,499)',
+        ];
+
         $amount = $amounts[$tier] ?? 499.00;
+        $serviceName = $serviceNames[$tier] ?? 'Pro Venture Institutional Memorandum (€499)';
 
         $hasEnoughBalance = $user->hasBalance($amount);
         $paymentStatus = $hasEnoughBalance ? 'paid' : 'pending';
@@ -115,6 +124,7 @@ class ProjectController extends Controller
             'user_id' => $user->id,
             'project_id' => $project->id,
             'type' => 'generation',
+            'service_name' => $serviceName,
             'amount' => $amount,
             'currency' => 'EUR',
             'gateway_reference' => $hasEnoughBalance ? 'WALLET-DEDUCT-' . strtoupper(substr(md5(uniqid()), 0, 6)) : 'INV-' . strtoupper(substr(md5(uniqid()), 0, 8)),
@@ -141,7 +151,7 @@ class ProjectController extends Controller
         }
 
         $message = $hasEnoughBalance 
-            ? "Business plan generated and paid from wallet balance (€" . number_format($amount, 2) . ")! Official PDF unlocked."
+            ? "Business plan generated and paid from wallet balance (€" . number_format($amount, 2) . " for " . $serviceName . ")! Official PDF unlocked."
             : "Business plan generated in preview draft mode. Settle invoice or top up wallet to unlock official PDF.";
 
         return redirect()->route('projects.show', $project->id)->with('success', $message);
@@ -170,6 +180,7 @@ class ProjectController extends Controller
             ],
             'payment' => $payment ? [
                 'id' => $payment->id,
+                'service_name' => $payment->getFormattedServiceName(),
                 'amount' => $payment->amount,
                 'currency' => $payment->currency,
                 'gateway_reference' => $payment->gateway_reference,

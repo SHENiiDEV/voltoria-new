@@ -20,15 +20,18 @@
         <h2 style="color: #ffffff; margin-top: 20px;">Business Plan Payment Verified</h2>
         <p style="font-size: 14px; color: #cbd5e1;">Dear {{ $user->name }},</p>
         <p style="font-size: 14px; color: #cbd5e1;">
-            Payment of <strong>€{{ number_format($payment->amount, 2) }} EUR</strong> for your business plan brief <strong>"{{ $project->title }}"</strong> has been processed. Your official 6-page PDF export is now fully unlocked.
+            Payment of <strong>€{{ number_format($payment->amount, 2) }} EUR</strong> for service <strong>"{{ $payment->getFormattedServiceName() }}"</strong> (Project: <strong>{{ $project->title }}</strong>) has been processed. Your official 6-page PDF export is now fully unlocked.
         </p>
 
         <div class="card">
-            <div style="font-size: 11px; color: #94a3b8; text-transform: uppercase; font-weight: 700;">Document Title</div>
-            <div style="font-size: 20px; font-weight: 800; color: #ffffff; margin-top: 4px;">{{ $project->title }}</div>
+            <div style="font-size: 11px; color: #38bdf8; text-transform: uppercase; font-weight: 800;">Paid Service Package</div>
+            <div style="font-size: 16px; font-weight: 800; color: #ffffff; margin-top: 4px;">{{ $payment->getFormattedServiceName() }}</div>
             
             <hr style="border: 0; border-top: 1px solid #334155; margin: 15px 0;">
 
+            <div style="font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">
+                Document Title: <strong style="color: #ffffff;">{{ $project->title }}</strong>
+            </div>
             <div style="font-size: 13px; color: #cbd5e1; margin-bottom: 6px;">
                 Amount Deducted/Paid: <strong style="color: #34d399;">€{{ number_format($payment->amount, 2) }} EUR</strong>
             </div>

@@ -150,7 +150,7 @@
                 Email: {{ $user->email }}<br><br>
                 <strong>Invoice Reference:</strong> {{ $payment->gateway_reference }}<br>
                 <strong>Date of Issue:</strong> {{ $payment->created_at->format('F d, Y H:i T') }}<br>
-                <strong>Payment Method:</strong> Profile Wallet Top-Up Credit
+                <strong>Payment Type:</strong> {{ $payment->type === 'topup' ? 'Profile Wallet Top-Up Credit' : 'Document Generation Fee' }}
             </td>
         </tr>
     </table>
@@ -167,8 +167,10 @@
         <tbody>
             <tr>
                 <td>
-                    <strong>Voltoria AI Profile Wallet Top-Up Credit</strong><br>
-                    <span style="font-size: 9.5px; color: #64748b;">Instant credit allocation for B2B Business Plan Architect document generation.</span>
+                    <strong>{{ $payment->getFormattedServiceName() }}</strong><br>
+                    <span style="font-size: 9.5px; color: #64748b;">
+                        {{ $payment->type === 'topup' ? 'Instant profile wallet balance credit for automated business plan architect generations.' : 'Full 6-page institutional investment memorandum export license.' }}
+                    </span>
                 </td>
                 <td style="text-align: center;">1</td>
                 <td style="text-align: right;">€{{ number_format($payment->amount, 2) }}</td>

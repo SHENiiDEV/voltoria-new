@@ -118,7 +118,7 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                         <tr className="border-b border-slate-800/80 bg-slate-950 text-slate-400 font-semibold uppercase text-[11px]">
                                             <th className="py-3 px-4">Project Title</th>
                                             <th className="py-3 px-4">Status</th>
-                                            <th className="py-3 px-4">Payment</th>
+                                            <th className="py-3 px-4">Paid Service Package</th>
                                             <th className="py-3 px-4">Created At</th>
                                             <th className="py-3 px-4 text-right">Actions</th>
                                         </tr>
@@ -148,7 +148,7 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                                 <td className="py-3.5 px-4 text-xs">
                                                     {project.is_paid ? (
                                                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-500/10 border border-indigo-500/20 text-indigo-300">
-                                                            Paid (€{project.payment?.amount || '499'})
+                                                            {project.payment?.service_name || 'Paid (€' + (project.payment?.amount || '499') + ')'}
                                                         </span>
                                                     ) : (
                                                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-slate-800 border border-slate-700 text-slate-400">
@@ -198,7 +198,7 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                 <table className="w-full text-left text-xs border-collapse">
                                     <thead>
                                         <tr className="border-b border-slate-800 bg-slate-950 text-slate-400">
-                                            <th className="py-2.5 px-3">Type</th>
+                                            <th className="py-2.5 px-3">Service Package / Item Description</th>
                                             <th className="py-2.5 px-3">Amount</th>
                                             <th className="py-2.5 px-3">Reference</th>
                                             <th className="py-2.5 px-3">Date</th>
@@ -208,12 +208,8 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                     <tbody className="divide-y divide-slate-800/60">
                                         {transactions.map((tx) => (
                                             <tr key={tx.id} className="hover:bg-slate-800/30 transition-colors">
-                                                <td className="py-2.5 px-3 font-semibold text-slate-200 capitalize">
-                                                    {tx.type === 'topup' ? (
-                                                        <span className="text-emerald-400 font-bold">+ Wallet Top-Up</span>
-                                                    ) : (
-                                                        <span className="text-slate-300">- Document Generation</span>
-                                                    )}
+                                                <td className="py-2.5 px-3 font-semibold text-slate-200">
+                                                    {tx.service_name || (tx.type === 'topup' ? '+ Wallet Top-Up Credit' : '- Document Generation')}
                                                 </td>
                                                 <td className="py-2.5 px-3 font-bold text-white">
                                                     €{tx.amount}
