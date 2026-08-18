@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Mail\WelcomeUserMail;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -44,6 +47,13 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+        // Send Welcome email to new user
+        try {
+            Mail::to($user->email)->send(new WelcomeUserMail($user));
+        } catch (\Exception $e) {
+            Log::error('Failed sending WelcomeUserMail: ' . $e->getMessage());
+        }
 
         Auth::login($user);
 
