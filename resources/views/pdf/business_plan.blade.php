@@ -5,13 +5,13 @@
     <title>{{ $project->title }} — Investment Memorandum</title>
     <style>
         @page {
-            margin: 40px 45px;
+            margin: 35px 40px;
         }
         body {
             font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
             color: #0f172a;
-            line-height: 1.6;
-            font-size: 12px;
+            line-height: 1.5;
+            font-size: 11.5px;
             background: #ffffff;
         }
         .watermark {
@@ -30,85 +30,83 @@
             letter-spacing: 4px;
         }
         .page-break {
-            page-break-after: always;
+            page-break-before: always;
         }
         
         /* Cover Page Styling */
         .cover-page {
-            height: 100%;
-            padding-top: 60px;
+            padding-top: 40px;
             text-align: left;
         }
         .cover-badge {
             display: inline-block;
-            padding: 6px 14px;
-            font-size: 10px;
+            padding: 5px 12px;
+            font-size: 9.5px;
             font-weight: 800;
             letter-spacing: 1.5px;
             border-radius: 4px;
             text-transform: uppercase;
             background: #0f172a;
             color: #38bdf8;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
         .cover-title {
-            font-size: 34px;
+            font-size: 32px;
             font-weight: 900;
             color: #0f172a;
             line-height: 1.15;
-            margin: 0 0 15px 0;
+            margin: 0 0 12px 0;
             text-transform: uppercase;
             letter-spacing: -0.5px;
         }
         .cover-tagline {
-            font-size: 15px;
+            font-size: 14px;
             color: #475569;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             font-weight: 500;
             max-width: 90%;
             border-left: 3px solid #3b82f6;
             padding-left: 12px;
         }
         .cover-meta {
-            margin-top: 80px;
-            border-t: 2px solid #e2e8f0;
-            padding-top: 25px;
+            margin-top: 50px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
             width: 100%;
         }
         .cover-meta td {
             vertical-align: top;
-            padding-bottom: 12px;
-            font-size: 11px;
+            padding-bottom: 10px;
+            font-size: 10.5px;
         }
         .meta-label {
             font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
-            font-size: 9px;
+            font-size: 8.5px;
             letter-spacing: 0.5px;
         }
         .meta-value {
             font-weight: 600;
             color: #0f172a;
-            font-size: 11px;
+            font-size: 10.5px;
         }
 
         /* Section Header & Styling */
         .section-header {
             border-bottom: 2px solid #0f172a;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            margin-top: 10px;
+            padding-bottom: 6px;
+            margin-bottom: 15px;
         }
         .section-number {
-            font-size: 10px;
+            font-size: 9.5px;
             font-weight: 800;
             color: #3b82f6;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         .section-title {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 800;
             color: #0f172a;
             margin: 2px 0 0 0;
@@ -119,44 +117,44 @@
             background: #f8fafc;
             border: 1px solid #e2e8f0;
             border-radius: 6px;
-            padding: 12px 15px;
-            margin-bottom: 15px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
         }
         .card-title {
             font-weight: 800;
-            font-size: 10px;
+            font-size: 9.5px;
             text-transform: uppercase;
             color: #334155;
             letter-spacing: 0.5px;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .card-body {
-            font-size: 11.5px;
+            font-size: 11px;
             color: #1e293b;
-            line-height: 1.5;
+            line-height: 1.45;
         }
 
         /* Metric Highlights */
         .metric-grid {
             width: 100%;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             border-collapse: separate;
-            border-spacing: 8px;
+            border-spacing: 6px;
         }
         .metric-box {
             background: #f1f5f9;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
         }
         .metric-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 900;
             color: #0f172a;
         }
         .metric-lbl {
-            font-size: 9px;
+            font-size: 8.5px;
             font-weight: 700;
             color: #64748b;
             text-transform: uppercase;
@@ -167,21 +165,21 @@
         table.data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
-            margin-bottom: 20px;
+            margin-top: 8px;
+            margin-bottom: 15px;
         }
         table.data-table th, table.data-table td {
             border: 1px solid #cbd5e1;
-            padding: 7px 10px;
+            padding: 6px 8px;
             text-align: left;
-            font-size: 10.5px;
+            font-size: 10px;
         }
         table.data-table th {
             background-color: #0f172a;
             color: #ffffff;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 9.5px;
+            font-size: 9px;
             letter-spacing: 0.5px;
         }
         table.data-table tr:nth-child(even) {
@@ -193,15 +191,15 @@
             background: #f8fafc;
             border: 1px solid #cbd5e1;
             border-radius: 6px;
-            padding: 15px;
-            margin-bottom: 30px;
+            padding: 12px;
+            margin-bottom: 20px;
         }
         .toc-item {
             display: flex;
             justify-content: space-between;
             border-bottom: 1px dashed #cbd5e1;
-            padding: 6px 0;
-            font-size: 11px;
+            padding: 5px 0;
+            font-size: 10.5px;
             font-weight: 600;
             color: #1e293b;
         }
@@ -213,7 +211,7 @@
             right: 0;
             border-top: 1px solid #e2e8f0;
             padding-top: 6px;
-            font-size: 8.5px;
+            font-size: 8px;
             color: #94a3b8;
             text-align: center;
         }
@@ -232,9 +230,9 @@
         <h1 class="cover-title">{{ $data['company_name'] ?? $project->title }}</h1>
         <div class="cover-tagline">{{ $data['tagline'] ?? 'Next-Generation Automated B2B Intelligence & Revenue Scaling Platform' }}</div>
 
-        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 20px; border-radius: 6px; margin-top: 40px;">
-            <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-bottom: 10px;">Executive Document Brief</div>
-            <div style="font-size: 11.5px; color: #334155; line-height: 1.6;">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 16px; border-radius: 6px; margin-top: 30px;">
+            <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-bottom: 8px;">Executive Document Brief</div>
+            <div style="font-size: 11px; color: #334155; line-height: 1.5;">
                 This formal Investment Memorandum presents the strategic business architecture, market sizing (TAM/SAM/SOM), quantitative unit economics, 3-Year P&L financial trajectory, and risk mitigation framework for <strong>{{ $data['company_name'] ?? $project->title }}</strong>. Prepared using Voltoria AI's proprietary deep-reasoning architectural engine.
             </div>
         </div>
@@ -271,9 +269,9 @@
         </table>
     </div>
 
+    {{-- PAGE 2: TABLE OF CONTENTS & SECTION 1 --}}
     <div class="page-break"></div>
 
-    {{-- PAGE 2: TABLE OF CONTENTS & SECTION 1 --}}
     <div class="section-header">
         <div class="section-number">Document Navigation</div>
         <div class="section-title">Table of Contents</div>
@@ -288,7 +286,7 @@
         <div class="toc-item"><span>6. Risk Management, Corporate Governance & Appendix</span> <span>Page 6</span></div>
     </div>
 
-    <div class="section-header" style="margin-top: 30px;">
+    <div class="section-header" style="margin-top: 20px;">
         <div class="section-number">Chapter 1</div>
         <div class="section-title">Executive Summary</div>
     </div>
@@ -299,15 +297,15 @@
             <div class="card-body">{{ $data['executive_summary']['vision'] ?? '' }}</div>
         </div>
 
-        <table style="width: 100%; margin-bottom: 15px;">
+        <table style="width: 100%; margin-bottom: 10px;">
             <tr>
-                <td style="width: 50%; vertical-align: top; padding-right: 8px;">
+                <td style="width: 50%; vertical-align: top; padding-right: 6px;">
                     <div class="card">
                         <div class="card-title" style="color: #dc2626;">The Core Problem & Market Pain</div>
                         <div class="card-body">{{ $data['executive_summary']['problem'] ?? '' }}</div>
                     </div>
                 </td>
-                <td style="width: 50%; vertical-align: top; padding-left: 8px;">
+                <td style="width: 50%; vertical-align: top; padding-left: 6px;">
                     <div class="card">
                         <div class="card-title" style="color: #16a34a;">The Proprietary Solution</div>
                         <div class="card-body">{{ $data['executive_summary']['solution'] ?? '' }}</div>
@@ -330,16 +328,16 @@
         </div>
     @endif
 
+    {{-- PAGE 3: SECTION 2 - MARKET ANALYSIS --}}
     <div class="page-break"></div>
 
-    {{-- PAGE 3: SECTION 2 - MARKET ANALYSIS --}}
     <div class="section-header">
         <div class="section-number">Chapter 2</div>
         <div class="section-title">Market Opportunity & Competitor Landscape</div>
     </div>
 
     @if(isset($data['market_analysis']))
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-bottom: 8px;">Quantified Market Size Metrics:</div>
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-bottom: 6px;">Quantified Market Size Metrics:</div>
         
         <table class="metric-grid">
             <tr>
@@ -370,7 +368,7 @@
             <div class="card-body">
                 <ul style="margin: 0; padding-left: 15px;">
                     @foreach($data['market_analysis']['industry_trends'] as $trend)
-                        <li style="margin-bottom: 4px;">{{ $trend }}</li>
+                        <li style="margin-bottom: 3px;">{{ $trend }}</li>
                     @endforeach
                 </ul>
             </div>
@@ -378,7 +376,7 @@
         @endif
 
         @if(!empty($data['market_analysis']['competitors']))
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-top: 20px; margin-bottom: 8px;">Competitive Advantage Matrix:</div>
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-top: 15px; margin-bottom: 6px;">Competitive Advantage Matrix:</div>
         <table class="data-table">
             <thead>
                 <tr>
@@ -402,9 +400,9 @@
         @endif
     @endif
 
+    {{-- PAGE 4: SECTION 3 - FINANCIAL MODEL --}}
     <div class="page-break"></div>
 
-    {{-- PAGE 4: SECTION 3 - FINANCIAL MODEL --}}
     <div class="section-header">
         <div class="section-number">Chapter 3</div>
         <div class="section-title">Comprehensive Financial Model & P&L Trajectory</div>
@@ -416,14 +414,14 @@
             <div class="card-body">
                 <ul style="margin: 0; padding-left: 15px;">
                     @foreach($data['financial_model']['revenue_streams'] ?? [] as $stream)
-                        <li style="margin-bottom: 4px;">{{ $stream }}</li>
+                        <li style="margin-bottom: 3px;">{{ $stream }}</li>
                     @endforeach
                 </ul>
             </div>
         </div>
 
         @if(isset($data['financial_model']['unit_economics']))
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-top: 15px; margin-bottom: 8px;">Unit Economics Breakdown:</div>
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-top: 12px; margin-bottom: 6px;">Unit Economics Breakdown:</div>
         <table class="data-table">
             <thead>
                 <tr>
@@ -449,7 +447,7 @@
         @endif
 
         @if(!empty($data['financial_model']['three_year_forecast']))
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-top: 20px; margin-bottom: 8px;">3-Year Income Statement (P&L Forecast):</div>
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-top: 15px; margin-bottom: 6px;">3-Year Income Statement (P&L Forecast):</div>
         <table class="data-table">
             <thead>
                 <tr>
@@ -479,9 +477,9 @@
         @endif
     @endif
 
+    {{-- PAGE 5: OPERATIONS & GTM --}}
     <div class="page-break"></div>
 
-    {{-- PAGE 5: OPERATIONS & GTM --}}
     <div class="section-header">
         <div class="section-number">Chapter 4 & 5</div>
         <div class="section-title">Operations & Go-To-Market Roadmap</div>
@@ -499,13 +497,13 @@
     @endif
 
     @if(isset($data['go_to_market']))
-        <div class="card" style="margin-top: 25px;">
+        <div class="card" style="margin-top: 15px;">
             <div class="card-title">Commercial Sales Motion & Pipeline Strategy</div>
             <div class="card-body">{{ $data['go_to_market']['sales_strategy'] ?? '' }}</div>
         </div>
 
         @if(!empty($data['go_to_market']['key_milestones']))
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-top: 20px; margin-bottom: 8px;">Quarterly Strategic Milestones:</div>
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-top: 15px; margin-bottom: 6px;">Quarterly Strategic Milestones:</div>
         <table class="data-table">
             <thead>
                 <tr>
@@ -525,39 +523,39 @@
         @endif
     @endif
 
+    {{-- PAGE 6: RISKS & APPENDIX --}}
     <div class="page-break"></div>
 
-    {{-- PAGE 6: RISKS & APPENDIX --}}
     <div class="section-header">
         <div class="section-number">Chapter 6 & Appendix</div>
         <div class="section-title">Risk Governance & Legal Disclaimers</div>
     </div>
 
     @if(isset($data['risk_management']))
-        <table style="width: 100%; margin-bottom: 20px;">
+        <table style="width: 100%; margin-bottom: 15px;">
             <tr>
-                <td style="width: 50%; vertical-align: top; padding-right: 8px;">
+                <td style="width: 50%; vertical-align: top; padding-right: 6px;">
                     <div class="card">
                         <div class="card-title" style="color: #dc2626;">Identified Market & Financial Risks</div>
                         <div class="card-body">
                             <ul style="margin: 0; padding-left: 15px;">
                                 @foreach($data['risk_management']['market_risks'] ?? [] as $risk)
-                                    <li style="margin-bottom: 4px;">{{ $risk }}</li>
+                                    <li style="margin-bottom: 3px;">{{ $risk }}</li>
                                 @endforeach
                                 @foreach($data['risk_management']['financial_risks'] ?? [] as $risk)
-                                    <li style="margin-bottom: 4px;">{{ $risk }}</li>
+                                    <li style="margin-bottom: 3px;">{{ $risk }}</li>
                                 @endforeach
                             </ul>
                         </div>
                     </div>
                 </td>
-                <td style="width: 50%; vertical-align: top; padding-left: 8px;">
+                <td style="width: 50%; vertical-align: top; padding-left: 6px;">
                     <div class="card">
                         <div class="card-title" style="color: #16a34a;">Strategic Risk Mitigation Actions</div>
                         <div class="card-body">
                             <ul style="margin: 0; padding-left: 15px;">
                                 @foreach($data['risk_management']['mitigation_strategies'] ?? [] as $mit)
-                                    <li style="margin-bottom: 4px;">{{ $mit }}</li>
+                                    <li style="margin-bottom: 3px;">{{ $mit }}</li>
                                 @endforeach
                             </ul>
                         </div>
@@ -567,17 +565,17 @@
         </table>
     @endif
 
-    <div style="margin-top: 40px; border-t: 2px solid #e2e8f0; padding-top: 20px;">
-        <div style="font-weight: 800; font-size: 11px; text-transform: uppercase; color: #0f172a; margin-bottom: 8px;">Appendix: Legal Disclaimers & Merchant Statement</div>
+    <div style="margin-top: 30px; border-top: 2px solid #e2e8f0; padding-top: 15px;">
+        <div style="font-weight: 800; font-size: 10.5px; text-transform: uppercase; color: #0f172a; margin-bottom: 6px;">Appendix: Legal Disclaimers & Merchant Statement</div>
         
         <div class="card" style="background: #f1f5f9;">
             <div class="card-title">Confidentiality & Non-Warranty Notice</div>
-            <div class="card-body" style="font-size: 10px; color: #475569;">
+            <div class="card-body" style="font-size: 9.5px; color: #475569;">
                 This business plan memorandum has been produced automatically using Voltoria AI's deep reasoning architectural engine operated by <strong>INCHWARD LIMITED</strong>. All financial projections, unit economics, and market estimates represent algorithmic calculations based on user input and market models. While designed to conform to institutional investment standards, final due diligence remains the responsibility of the client.
             </div>
         </div>
 
-        <div style="font-size: 10px; color: #64748b; margin-top: 15px; line-height: 1.5;">
+        <div style="font-size: 9.5px; color: #64748b; margin-top: 12px; line-height: 1.45;">
             <strong>Merchant of Record & Legal Entity:</strong> INCHWARD LIMITED &bull; Company Number: 16021412<br>
             <strong>Registered Office Address:</strong> Academy House, 11 Dunraven Place, Bridgend, Mid Glamorgan, United Kingdom, CF31 1JF
         </div>
