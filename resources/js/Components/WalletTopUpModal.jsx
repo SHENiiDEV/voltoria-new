@@ -79,8 +79,8 @@ export default function WalletTopUpModal({ isOpen, onClose, currentBalance = 0 }
                         <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1">Custom Amount (€)</label>
                         <input
                             type="number"
-                            min="10"
-                            step="10"
+                            min="1"
+                            step="any"
                             value={data.amount}
                             onChange={(e) => setData('amount', parseFloat(e.target.value) || 0)}
                             className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-white font-bold focus:outline-none focus:border-indigo-500"
