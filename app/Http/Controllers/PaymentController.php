@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DocumentPaymentMail;
 use App\Models\Payment;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class PaymentController extends Controller
 {
@@ -50,6 +53,12 @@ class PaymentController extends Controller
                 'status' => 'paid',
             ]);
 
+            try {
+                Mail::to($user->email)->send(new DocumentPaymentMail($user, $project, $payment));
+            } catch (\Exception $e) {
+                Log::error('Failed sending DocumentPaymentMail: ' . $e->getMessage());
+            }
+
             return redirect()->back()->with('success', 'Payment of €' . number_format($amount, 2) . ' deducted from wallet balance! Official PDF unlocked.');
         }
 
@@ -60,6 +69,12 @@ class PaymentController extends Controller
             'gateway_reference' => $reference,
             'status' => 'paid',
         ]);
+
+        try {
+            Mail::to($user->email)->send(new DocumentPaymentMail($user, $project, $payment));
+        } catch (\Exception $e) {
+            Log::error('Failed sending DocumentPaymentMail: ' . $e->getMessage());
+        }
 
         return redirect()->back()->with('success', 'Payment verified! Full document and PDF export unlocked.');
     }

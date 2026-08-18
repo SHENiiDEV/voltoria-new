@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\GenerateBusinessPlanJob;
+use App\Mail\DocumentPaymentMail;
 use App\Models\Payment;
 use App\Models\Project;
 use App\Services\DeepSeekArchitect;
@@ -11,6 +12,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ProjectController extends Controller
 {
@@ -108,7 +111,7 @@ class ProjectController extends Controller
         ]);
 
         // Create payment record
-        Payment::create([
+        $payment = Payment::create([
             'user_id' => $user->id,
             'project_id' => $project->id,
             'type' => 'generation',
@@ -117,6 +120,15 @@ class ProjectController extends Controller
             'gateway_reference' => $hasEnoughBalance ? 'WALLET-DEDUCT-' . strtoupper(substr(md5(uniqid()), 0, 6)) : 'INV-' . strtoupper(substr(md5(uniqid()), 0, 8)),
             'status' => $paymentStatus,
         ]);
+
+        // Send email if paid
+        if ($hasEnoughBalance) {
+            try {
+                Mail::to($user->email)->send(new DocumentPaymentMail($user, $project, $payment));
+            } catch (\Exception $e) {
+                Log::error('Failed sending DocumentPaymentMail: ' . $e->getMessage());
+            }
+        }
 
         // Dispatch background job or process immediately
         if (config('queue.default') === 'sync') {
