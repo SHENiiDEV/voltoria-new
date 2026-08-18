@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response as HttpResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class WalletController extends Controller
 {
@@ -14,7 +16,7 @@ class WalletController extends Controller
     public function topup(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'amount' => 'required|numeric|min:10|max:10000',
+            'amount' => 'required|numeric|min:1|max:10000',
             'reference' => 'nullable|string|max:200',
         ]);
 
@@ -38,5 +40,26 @@ class WalletController extends Controller
         ]);
 
         return redirect()->back()->with('success', "Wallet successfully topped up by €" . number_format($amount, 2) . "! Current balance: €" . number_format($user->balance, 2));
+    }
+
+    /**
+     * Download official PDF invoice for a wallet top-up or document payment.
+     */
+    public function downloadInvoice(Request $request, Payment $payment): HttpResponse
+    {
+        $user = $request->user();
+
+        if ($payment->user_id !== $user->id && !$user->is_admin) {
+            abort(403);
+        }
+
+        $pdf = Pdf::loadView('pdf.wallet_invoice', [
+            'payment' => $payment,
+            'user' => $user,
+        ]);
+
+        $filename = 'Invoice_' . ($payment->gateway_reference ?: $payment->id) . '.pdf';
+
+        return $pdf->download($filename);
     }
 }

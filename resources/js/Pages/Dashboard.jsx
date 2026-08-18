@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Head, Link } from '@inertiajs/react';
-import { Plus, FileText, Download, CheckCircle2, Clock, Sparkles, ExternalLink, Wallet, ArrowUpRight, History } from 'lucide-react';
+import { Plus, FileText, Download, CheckCircle2, Clock, Sparkles, ExternalLink, Wallet, ArrowUpRight, History, Receipt } from 'lucide-react';
 
 export default function Dashboard({ auth, projects = [], wallet_balance = 0, transactions = [] }) {
     const [showTopUpModal, setShowTopUpModal] = useState(false);
@@ -184,12 +184,12 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                         )}
                     </div>
 
-                    {/* Recent Transactions Table */}
+                    {/* Recent Transactions & Top-Up Invoices Table */}
                     {transactions.length > 0 && (
-                        <div className="bg-slate-900/60 border border-slate-800/80 rounded-3xl p-6 space-y-4">
+                        <div className="bg-slate-900/60 border border-slate-800/80 rounded-3xl p-6 space-y-4 shadow-2xl">
                             <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
                                 <h3 className="text-base font-bold text-white flex items-center gap-2">
-                                    <History className="w-4 h-4 text-indigo-400" /> Recent Wallet Activity
+                                    <History className="w-4 h-4 text-indigo-400" /> Wallet Transactions & Official Invoices
                                 </h3>
                                 <span className="text-xs text-slate-400">Last 10 Transactions</span>
                             </div>
@@ -202,11 +202,12 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                             <th className="py-2.5 px-3">Amount</th>
                                             <th className="py-2.5 px-3">Reference</th>
                                             <th className="py-2.5 px-3">Date</th>
+                                            <th className="py-2.5 px-3 text-right">Official Receipt</th>
                                         </tr>
                                     </thead>
                                     <tbody className="divide-y divide-slate-800/60">
                                         {transactions.map((tx) => (
-                                            <tr key={tx.id}>
+                                            <tr key={tx.id} className="hover:bg-slate-800/30 transition-colors">
                                                 <td className="py-2.5 px-3 font-semibold text-slate-200 capitalize">
                                                     {tx.type === 'topup' ? (
                                                         <span className="text-emerald-400 font-bold">+ Wallet Top-Up</span>
@@ -222,6 +223,14 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                                 </td>
                                                 <td className="py-2.5 px-3 text-slate-400">
                                                     {tx.created_at}
+                                                </td>
+                                                <td className="py-2.5 px-3 text-right">
+                                                    <a
+                                                        href={route('wallet.invoice', tx.id)}
+                                                        className="inline-flex items-center gap-1 px-3 py-1 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-[11px] font-bold transition-all"
+                                                    >
+                                                        <Receipt className="w-3 h-3" /> Invoice (PDF)
+                                                    </a>
                                                 </td>
                                             </tr>
                                         ))}
