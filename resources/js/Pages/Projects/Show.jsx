@@ -8,6 +8,7 @@ import MagicLoaderOverlay from '@/Components/MagicLoaderOverlay';
 export default function Show({ auth, project, payment, wallet_balance = 0 }) {
     const [activeTab, setActiveTab] = useState('summary');
     const [showPayModal, setShowPayModal] = useState(false);
+    const [showTopUpModal, setShowTopUpModal] = useState(false);
     const isInitialProcessing = project.status === 'processing' || !project.generated_json;
     const [showLoader, setShowLoader] = useState(isInitialProcessing);
     const [isBackendReady, setIsBackendReady] = useState(!isInitialProcessing);
