@@ -17,20 +17,20 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
     });
 
     useEffect(() => {
-        if (project.status !== 'processing') return;
+        if (project.status !== 'processing' && project.generated_json) return;
 
         const interval = setInterval(() => {
             fetch(route('projects.status', project.id))
                 .then((res) => res.json())
                 .then((data) => {
-                    if (data.status === 'completed' || data.status === 'failed') {
+                    if (data.status === 'completed' || data.has_json) {
                         setIsPolling(false);
                         clearInterval(interval);
-                        router.reload({ only: ['project', 'payment', 'wallet_balance'] });
+                        window.location.reload();
                     }
                 })
                 .catch((err) => console.error('Polling error:', err));
-        }, 3000);
+        }, 2500);
 
         return () => clearInterval(interval);
     }, [project.status, project.id]);

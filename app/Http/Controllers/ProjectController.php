@@ -6,6 +6,7 @@ use App\Jobs\GenerateBusinessPlanJob;
 use App\Mail\DocumentPaymentMail;
 use App\Models\Payment;
 use App\Models\Project;
+use App\Services\DeepSeekArchitect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -139,7 +140,7 @@ class ProjectController extends Controller
             }
         }
 
-        // Dispatch background job
+        // Dispatch background job or process immediately
         if (config('queue.default') === 'sync') {
             try {
                 GenerateBusinessPlanJob::dispatchSync($project);
@@ -191,12 +192,23 @@ class ProjectController extends Controller
     }
 
     /**
-     * Check status for frontend long polling.
+     * Check status for frontend long polling and auto-generate if background worker was inactive.
      */
     public function status(Request $request, Project $project): JsonResponse
     {
         if ($project->user_id !== $request->user()->id && !$request->user()->is_admin) {
             return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // If project is still processing or has no generated JSON, execute generation directly
+        if ($project->status === 'processing' || empty($project->generated_json)) {
+            try {
+                $job = new GenerateBusinessPlanJob($project);
+                $job->handle(app(DeepSeekArchitect::class));
+                $project->refresh();
+            } catch (\Throwable $e) {
+                Log::error('Auto-completion error in status endpoint: ' . $e->getMessage());
+            }
         }
 
         return response()->json([
