@@ -168,6 +168,15 @@ export default function Dashboard({ auth, projects = [], wallet_balance = 0, tra
                                                     >
                                                         <ExternalLink className="w-3.5 h-3.5" /> Open
                                                     </Link>
+
+                                                    {project.is_paid && project.payment?.id && (
+                                                        <a
+                                                            href={route('wallet.invoice', project.payment.id)}
+                                                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium transition-colors"
+                                                        >
+                                                            <Receipt className="w-3.5 h-3.5 text-indigo-400" /> Invoice
+                                                        </a>
+                                                    )}
                                                     
                                                     <a
                                                         href={route('projects.pdf', project.id)}

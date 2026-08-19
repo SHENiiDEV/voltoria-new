@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import WalletTopUpModal from '@/Components/WalletTopUpModal';
 import { Head, useForm, Link, router } from '@inertiajs/react';
-import { Download, FileText, CheckCircle2, CreditCard, Lock, Sparkles, TrendingUp, BarChart3, Users, AlertTriangle, ArrowLeft, Wallet, Plus, ShieldAlert } from 'lucide-react';
+import { Download, FileText, CheckCircle2, CreditCard, Lock, Sparkles, TrendingUp, BarChart3, Users, AlertTriangle, ArrowLeft, Wallet, Plus, ShieldAlert, Receipt } from 'lucide-react';
 import MagicLoaderOverlay from '@/Components/MagicLoaderOverlay';
 
 export default function Show({ auth, project, payment, wallet_balance = 0 }) {
@@ -25,42 +25,43 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
                 .then((data) => {
                     if (data.status === 'completed' || data.status === 'failed') {
                         setIsPolling(false);
-                        router.reload({ only: ['project'] });
+                        clearInterval(interval);
+                        router.reload({ only: ['project', 'payment', 'wallet_balance'] });
                     }
                 })
-                .catch(() => {});
+                .catch((err) => console.error('Polling error:', err));
         }, 3000);
 
         return () => clearInterval(interval);
     }, [project.status, project.id]);
 
-    const data = project.generated_json || {};
-    const paymentAmount = (parseFloat(payment?.amount) || 499.00);
-    const hasEnoughBalance = (parseFloat(wallet_balance) || 0) >= paymentAmount;
-
-    const handlePayFromWallet = (e) => {
-        e.preventDefault();
+    const handleWalletPay = () => {
         checkoutPost(route('projects.checkout', project.id), {
             data: { pay_from_wallet: true },
+            preserveScroll: true,
             onSuccess: () => setShowPayModal(false),
         });
     };
 
-    const handlePaySubmit = (e) => {
+    const handleCustomPay = (e) => {
         e.preventDefault();
         checkoutPost(route('projects.checkout', project.id), {
+            preserveScroll: true,
             onSuccess: () => setShowPayModal(false),
         });
     };
+
+    const paymentAmount = payment ? parseFloat(payment.amount) : 499.00;
+    const canPayWithWallet = parseFloat(wallet_balance) >= paymentAmount;
 
     return (
         <AuthenticatedLayout
             user={auth.user}
-            header={<h2 className="font-semibold text-xl text-slate-100 leading-tight">{project.title}</h2>}
+            header={<h2 className="font-semibold text-xl text-slate-100 leading-tight">Investment Memorandum: {project.title}</h2>}
         >
-            <Head title={`${project.title} — Business Plan Output`} />
+            <Head title={`${project.title} — Voltoria AI`} />
 
-            <MagicLoaderOverlay isProcessing={isPolling} />
+            {isPolling && <MagicLoaderOverlay />}
 
             <WalletTopUpModal
                 isOpen={showTopUpModal}
@@ -77,6 +78,16 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
                         </Link>
 
                         <div className="flex items-center gap-3">
+                            {project.is_paid && payment?.id && (
+                                <a
+                                    href={route('wallet.invoice', payment.id)}
+                                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-xs transition-all"
+                                >
+                                    <Receipt className="w-4 h-4 text-indigo-400" />
+                                    Download Tax Invoice (PDF)
+                                </a>
+                            )}
+
                             <a
                                 href={route('projects.pdf', project.id)}
                                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/20 transition-all"
