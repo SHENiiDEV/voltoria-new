@@ -51,6 +51,7 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
         });
     };
 
+    const data = project.generated_json || {};
     const paymentAmount = payment ? parseFloat(payment.amount) : 499.00;
     const canPayWithWallet = parseFloat(wallet_balance) >= paymentAmount;
 
