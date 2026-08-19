@@ -5,6 +5,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Throwable;
 
 class DeepSeekArchitect
 {
@@ -145,7 +146,7 @@ EOT;
             $response = Http::withHeaders([
                 'Authorization' => 'Bearer ' . $this->apiKey,
                 'Content-Type' => 'application/json',
-            ])->timeout(60)->post(rtrim($this->baseUrl, '/') . '/chat/completions', [
+            ])->connectTimeout(10)->timeout(30)->post(rtrim($this->baseUrl, '/') . '/chat/completions', [
                 'model' => $this->model,
                 'messages' => [
                     ['role' => 'system', 'content' => $systemPrompt],
@@ -174,7 +175,7 @@ EOT;
 
             return $parsed;
 
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             Log::error('VoltoriaArchitect exception: ' . $e->getMessage());
             return $this->generateMockPlan($briefPrompt, $title);
         }

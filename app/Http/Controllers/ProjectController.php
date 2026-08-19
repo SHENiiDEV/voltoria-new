@@ -6,7 +6,6 @@ use App\Jobs\GenerateBusinessPlanJob;
 use App\Mail\DocumentPaymentMail;
 use App\Models\Payment;
 use App\Models\Project;
-use App\Services\DeepSeekArchitect;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -116,7 +115,7 @@ class ProjectController extends Controller
         $project = $user->projects()->create([
             'title' => $validated['title'] ?: 'New Business Plan',
             'brief_prompt' => $validated['brief_prompt'],
-            'status' => 'draft',
+            'status' => 'processing',
         ]);
 
         // Create payment record
@@ -140,14 +139,15 @@ class ProjectController extends Controller
             }
         }
 
-        // Dispatch background job or process immediately
+        // Dispatch background job
         if (config('queue.default') === 'sync') {
-            GenerateBusinessPlanJob::dispatchSync($project);
+            try {
+                GenerateBusinessPlanJob::dispatchSync($project);
+            } catch (\Throwable $e) {
+                Log::error('Synchronous generation error: ' . $e->getMessage());
+            }
         } else {
             GenerateBusinessPlanJob::dispatch($project);
-            app(DeepSeekArchitect::class)->generateBusinessPlan($project->brief_prompt, $project->title);
-            $job = new GenerateBusinessPlanJob($project);
-            $job->handle(app(DeepSeekArchitect::class));
         }
 
         $message = $hasEnoughBalance 
