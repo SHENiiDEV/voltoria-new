@@ -8,8 +8,9 @@ import MagicLoaderOverlay from '@/Components/MagicLoaderOverlay';
 export default function Show({ auth, project, payment, wallet_balance = 0 }) {
     const [activeTab, setActiveTab] = useState('summary');
     const [showPayModal, setShowPayModal] = useState(false);
-    const [showTopUpModal, setShowTopUpModal] = useState(false);
-    const [isPolling, setIsPolling] = useState(project.status === 'processing');
+    const isInitialProcessing = project.status === 'processing' || !project.generated_json;
+    const [showLoader, setShowLoader] = useState(isInitialProcessing);
+    const [isBackendReady, setIsBackendReady] = useState(!isInitialProcessing);
 
     const { post: checkoutPost, processing: checkoutProcessing, errors: checkoutErrors } = useForm({
         reference: '',
@@ -17,23 +18,22 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
     });
 
     useEffect(() => {
-        if (project.status !== 'processing' && project.generated_json) return;
+        if (!isInitialProcessing) return;
 
         const interval = setInterval(() => {
             fetch(route('projects.status', project.id))
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.status === 'completed' || data.has_json) {
-                        setIsPolling(false);
+                        setIsBackendReady(true);
                         clearInterval(interval);
-                        window.location.reload();
                     }
                 })
                 .catch((err) => console.error('Polling error:', err));
-        }, 2500);
+        }, 2000);
 
         return () => clearInterval(interval);
-    }, [project.status, project.id]);
+    }, [isInitialProcessing, project.id]);
 
     const handleWalletPay = () => {
         checkoutPost(route('projects.checkout', project.id), {
@@ -62,7 +62,16 @@ export default function Show({ auth, project, payment, wallet_balance = 0 }) {
         >
             <Head title={`${project.title} — Voltoria AI`} />
 
-            {isPolling && <MagicLoaderOverlay />}
+            {showLoader && (
+                <MagicLoaderOverlay
+                    isProcessing={showLoader}
+                    isBackendReady={isBackendReady}
+                    onFinished={() => {
+                        setShowLoader(false);
+                        window.location.reload();
+                    }}
+                />
+            )}
 
             <WalletTopUpModal
                 isOpen={showTopUpModal}
