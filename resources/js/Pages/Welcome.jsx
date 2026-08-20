@@ -242,43 +242,130 @@ export default function Welcome({ canLogin, canRegister }) {
                     <div className="flex items-center gap-2 md:hidden">
                         <CurrencySwitcher />
                         <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 focus:outline-none"
-                            aria-label="Toggle Navigation Menu"
+                            onClick={() => setMobileMenuOpen(true)}
+                            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 border border-slate-800/80 focus:outline-none"
+                            aria-label="Open Navigation Drawer"
                         >
-                            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                            <Menu className="w-5 h-5" />
                         </button>
                     </div>
                 </div>
 
-                {/* Mobile Dropdown Menu */}
+                {/* Mobile Right Slide-Over Drawer */}
                 {mobileMenuOpen && (
-                    <div className="md:hidden border-t border-slate-800 bg-slate-950 p-4 space-y-3 animate-in fade-in slide-in-from-top-2 duration-200">
-                        <a href="#simulator" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            Live Simulator
-                        </a>
-                        <a href="#memorandum" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            6-Page PDF Preview
-                        </a>
-                        <a href="#calculator" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            ROI Calculator
-                        </a>
-                        <a href="#infographics" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            Financial Engine
-                        </a>
-                        <a href="#pricing" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            Pricing Plans
-                        </a>
-                        <a href="#faq" onClick={() => setMobileMenuOpen(false)} className="block py-1.5 text-xs font-semibold text-slate-300 hover:text-white">
-                            FAQ
-                        </a>
-                        <div className="pt-2 border-t border-slate-800 flex gap-2">
-                            <Link href={route('login')} className="flex-1 py-2 text-center text-xs font-bold text-slate-300 bg-slate-900 rounded-xl">
-                                Sign In
-                            </Link>
-                            <Link href={route('register')} className="flex-1 py-2 text-center text-xs font-bold text-white bg-indigo-600 rounded-xl">
-                                Register
-                            </Link>
+                    <div className="fixed inset-0 z-50 flex justify-end md:hidden">
+                        {/* Backdrop Blur */}
+                        <div
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300"
+                        />
+
+                        {/* Drawer Panel Sliding from Right */}
+                        <div className="relative w-full max-w-xs bg-slate-900/95 border-l border-slate-800/90 shadow-2xl backdrop-blur-2xl p-6 flex flex-col justify-between z-10 animate-in slide-in-from-right duration-300">
+                            
+                            {/* Drawer Top */}
+                            <div className="space-y-6">
+                                <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
+                                    <div className="flex items-center gap-2.5">
+                                        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20">
+                                            <Sparkles className="w-4 h-4 text-white" />
+                                        </div>
+                                        <span className="text-base font-extrabold text-white">VOLTORIA.AI</span>
+                                    </div>
+                                    <button
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                                        aria-label="Close Drawer"
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
+                                </div>
+
+                                <nav className="space-y-1">
+                                    <a
+                                        href="#simulator"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>Live AI Simulator</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                    <a
+                                        href="#memorandum"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>6-Page PDF Architecture</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                    <a
+                                        href="#calculator"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>Venture ROI Calculator</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                    <a
+                                        href="#infographics"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>3-Year P&L Model</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                    <a
+                                        href="#pricing"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>Pricing & Plans</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                    <a
+                                        href="#faq"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
+                                    >
+                                        <span>FAQ & Support</span>
+                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                    </a>
+                                </nav>
+                            </div>
+
+                            {/* Drawer Bottom Actions */}
+                            <div className="space-y-3 pt-6 border-t border-slate-800/80">
+                                <Link
+                                    href={canRegister ? route('register') : route('projects.create')}
+                                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                                >
+                                    Create Brief Now <ArrowRight className="w-4 h-4" />
+                                </Link>
+
+                                <div className="grid grid-cols-2 gap-2">
+                                    <Link
+                                        href={canLogin ? route('login') : '/dashboard'}
+                                        className="py-2.5 px-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700/60 transition-colors"
+                                    >
+                                        Sign In
+                                    </Link>
+                                    <Link
+                                        href={canRegister ? route('register') : route('projects.create')}
+                                        className="py-2.5 px-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-indigo-300 border border-indigo-500/30 transition-colors"
+                                    >
+                                        Register
+                                    </Link>
+                                </div>
+
+                                <div className="pt-2 text-[10px] text-center text-slate-500 flex justify-center gap-3">
+                                    <Link href={route('legal.terms')} className="hover:text-slate-400">Terms</Link>
+                                    <span>&bull;</span>
+                                    <Link href={route('legal.privacy')} className="hover:text-slate-400">Privacy</Link>
+                                    <span>&bull;</span>
+                                    <Link href={route('legal.refund')} className="hover:text-slate-400">Refund</Link>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 )}
