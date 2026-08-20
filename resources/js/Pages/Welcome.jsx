@@ -164,6 +164,27 @@ export default function Welcome({ canLogin, canRegister }) {
     const [selectedPage, setSelectedPage] = useState(1);
     const [openFaq, setOpenFaq] = useState(0);
 
+    // Prevent body scroll when mobile drawer is open
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, [mobileMenuOpen]);
+
+    // Close mobile drawer on Escape key
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (e.key === 'Escape') setMobileMenuOpen(false);
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, []);
+
     // ROI Calculator State
     const [targetArr, setTargetArr] = useState(1200000);
     const [marginPercent, setMarginPercent] = useState(85);
@@ -250,126 +271,130 @@ export default function Welcome({ canLogin, canRegister }) {
                         </button>
                     </div>
                 </div>
+            </nav>
 
-                {/* Mobile Right Slide-Over Drawer */}
-                {mobileMenuOpen && (
-                    <div className="fixed inset-0 z-50 flex justify-end md:hidden">
-                        {/* Backdrop Blur */}
-                        <div
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="fixed inset-0 bg-slate-950/80 backdrop-blur-md animate-in fade-in duration-300"
-                        />
+            {/* Mobile Right Slide-Over Drawer (Rendered outside Nav at root level with 100% solid background) */}
+            {mobileMenuOpen && (
+                <div className="fixed inset-0 z-[100] flex justify-end md:hidden">
+                    {/* Backdrop Overlay */}
+                    <div
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="fixed inset-0 bg-black/85 backdrop-blur-sm animate-in fade-in duration-200 cursor-pointer"
+                        aria-hidden="true"
+                    />
 
-                        {/* Drawer Panel Sliding from Right */}
-                        <div className="relative w-full max-w-xs bg-slate-900/95 border-l border-slate-800/90 shadow-2xl backdrop-blur-2xl p-6 flex flex-col justify-between z-10 animate-in slide-in-from-right duration-300">
-                            
-                            {/* Drawer Top */}
-                            <div className="space-y-6">
-                                <div className="flex items-center justify-between border-b border-slate-800/80 pb-4">
-                                    <div className="flex items-center gap-2.5">
-                                        <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20">
-                                            <Sparkles className="w-4 h-4 text-white" />
-                                        </div>
-                                        <span className="text-base font-extrabold text-white">VOLTORIA.AI</span>
+                    {/* Drawer Panel Sliding from Right */}
+                    <div className="relative w-full max-w-[300px] sm:max-w-xs h-full bg-slate-950 border-l border-slate-800 shadow-2xl p-6 flex flex-col justify-between z-10 animate-in slide-in-from-right duration-300 overflow-y-auto">
+                        
+                        {/* Drawer Top */}
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20">
+                                        <Sparkles className="w-4 h-4 text-white" />
                                     </div>
-                                    <button
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
-                                        aria-label="Close Drawer"
-                                    >
-                                        <X className="w-5 h-5" />
-                                    </button>
+                                    <span className="text-base font-extrabold text-white">VOLTORIA.AI</span>
                                 </div>
-
-                                <nav className="space-y-1">
-                                    <a
-                                        href="#simulator"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>Live AI Simulator</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                    <a
-                                        href="#memorandum"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>6-Page PDF Architecture</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                    <a
-                                        href="#calculator"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>Venture ROI Calculator</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                    <a
-                                        href="#infographics"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>3-Year P&L Model</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                    <a
-                                        href="#pricing"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>Pricing & Plans</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                    <a
-                                        href="#faq"
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-800/70 transition-colors"
-                                    >
-                                        <span>FAQ & Support</span>
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
-                                    </a>
-                                </nav>
+                                <button
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
+                                    aria-label="Close Drawer"
+                                >
+                                    <X className="w-5 h-5" />
+                                </button>
                             </div>
 
-                            {/* Drawer Bottom Actions */}
-                            <div className="space-y-3 pt-6 border-t border-slate-800/80">
+                            <nav className="space-y-1">
+                                <a
+                                    href="#simulator"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>Live AI Simulator</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                                <a
+                                    href="#memorandum"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>6-Page PDF Architecture</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                                <a
+                                    href="#calculator"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>Venture ROI Calculator</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                                <a
+                                    href="#infographics"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>3-Year P&L Model</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                                <a
+                                    href="#pricing"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>Pricing & Plans</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                                <a
+                                    href="#faq"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
+                                >
+                                    <span>FAQ & Support</span>
+                                    <ChevronRight className="w-4 h-4 text-slate-600" />
+                                </a>
+                            </nav>
+                        </div>
+
+                        {/* Drawer Bottom Actions */}
+                        <div className="space-y-3 pt-6 border-t border-slate-800 mt-6">
+                            <Link
+                                href={canRegister ? route('register') : route('projects.create')}
+                                onClick={() => setMobileMenuOpen(false)}
+                                className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                            >
+                                Create Brief Now <ArrowRight className="w-4 h-4" />
+                            </Link>
+
+                            <div className="grid grid-cols-2 gap-2">
+                                <Link
+                                    href={canLogin ? route('login') : '/dashboard'}
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="py-2.5 px-3 text-center rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-slate-200 border border-slate-800 transition-colors"
+                                >
+                                    Sign In
+                                </Link>
                                 <Link
                                     href={canRegister ? route('register') : route('projects.create')}
-                                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                                    onClick={() => setMobileMenuOpen(false)}
+                                    className="py-2.5 px-3 text-center rounded-xl bg-slate-900 hover:bg-slate-800 text-xs font-bold text-indigo-300 border border-indigo-500/30 transition-colors"
                                 >
-                                    Create Brief Now <ArrowRight className="w-4 h-4" />
+                                    Register
                                 </Link>
-
-                                <div className="grid grid-cols-2 gap-2">
-                                    <Link
-                                        href={canLogin ? route('login') : '/dashboard'}
-                                        className="py-2.5 px-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 border border-slate-700/60 transition-colors"
-                                    >
-                                        Sign In
-                                    </Link>
-                                    <Link
-                                        href={canRegister ? route('register') : route('projects.create')}
-                                        className="py-2.5 px-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-indigo-300 border border-indigo-500/30 transition-colors"
-                                    >
-                                        Register
-                                    </Link>
-                                </div>
-
-                                <div className="pt-2 text-[10px] text-center text-slate-500 flex justify-center gap-3">
-                                    <Link href={route('legal.terms')} className="hover:text-slate-400">Terms</Link>
-                                    <span>&bull;</span>
-                                    <Link href={route('legal.privacy')} className="hover:text-slate-400">Privacy</Link>
-                                    <span>&bull;</span>
-                                    <Link href={route('legal.refund')} className="hover:text-slate-400">Refund</Link>
-                                </div>
                             </div>
 
+                            <div className="pt-2 text-[10px] text-center text-slate-500 flex justify-center gap-3">
+                                <Link href={route('legal.terms')} className="hover:text-slate-400">Terms</Link>
+                                <span>&bull;</span>
+                                <Link href={route('legal.privacy')} className="hover:text-slate-400">Privacy</Link>
+                                <span>&bull;</span>
+                                <Link href={route('legal.refund')} className="hover:text-slate-400">Refund</Link>
+                            </div>
                         </div>
+
                     </div>
-                )}
-            </nav>
+                </div>
+            )}
 
             {/* HERO SECTION */}
             <section className="relative pt-12 pb-20 sm:pt-20 sm:pb-28 px-4 sm:px-6 max-w-7xl mx-auto text-center space-y-8">
