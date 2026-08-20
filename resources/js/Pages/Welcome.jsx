@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Head, Link } from '@inertiajs/react';
 import { useCurrency } from '@/Contexts/CurrencyContext';
 import CurrencySwitcher from '@/Components/CurrencySwitcher';
+import PublicFooter from '@/Components/PublicFooter';
 import { 
     Sparkles, ArrowRight, Zap, ShieldCheck, FileText, CheckCircle2, TrendingUp, 
     BarChart3, Layers, Globe, Award, ChevronRight, Building2, Check, ArrowUpRight,
@@ -222,24 +223,18 @@ export default function Welcome({ canLogin, canRegister }) {
 
                     {/* Desktop Navigation */}
                     <div className="hidden lg:flex items-center gap-6">
-                        <a href="#simulator" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            Live Simulator
-                        </a>
-                        <a href="#memorandum" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            6-Page PDF
-                        </a>
-                        <a href="#calculator" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            ROI Calculator
-                        </a>
-                        <a href="#infographics" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            Financials
-                        </a>
-                        <a href="#pricing" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            Pricing
-                        </a>
-                        <a href="#faq" className="text-xs font-semibold text-slate-400 hover:text-white transition-colors">
-                            FAQ
-                        </a>
+                        <Link href="/how-it-works" className="text-xs font-semibold text-slate-300 hover:text-white transition-colors">
+                            How It Works
+                        </Link>
+                        <Link href="/about" className="text-xs font-semibold text-slate-300 hover:text-white transition-colors">
+                            About Us
+                        </Link>
+                        <Link href="/support" className="text-xs font-semibold text-slate-300 hover:text-white transition-colors">
+                            Support & FAQ
+                        </Link>
+                        <Link href="/contact" className="text-xs font-semibold text-slate-300 hover:text-white transition-colors">
+                            Contact Us
+                        </Link>
                     </div>
 
                     <div className="hidden md:flex items-center gap-4">
@@ -305,54 +300,38 @@ export default function Welcome({ canLogin, canRegister }) {
                             </div>
 
                             <nav className="space-y-1">
-                                <a
-                                    href="#simulator"
+                                <Link
+                                    href="/how-it-works"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
                                 >
-                                    <span>Live AI Simulator</span>
+                                    <span>How It Works</span>
                                     <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
-                                <a
-                                    href="#memorandum"
+                                </Link>
+                                <Link
+                                    href="/about"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
                                 >
-                                    <span>6-Page PDF Architecture</span>
+                                    <span>About Us</span>
                                     <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
-                                <a
-                                    href="#calculator"
+                                </Link>
+                                <Link
+                                    href="/support"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
                                 >
-                                    <span>Venture ROI Calculator</span>
+                                    <span>Support & FAQ</span>
                                     <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
-                                <a
-                                    href="#infographics"
+                                </Link>
+                                <Link
+                                    href="/contact"
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
                                 >
-                                    <span>3-Year P&L Model</span>
+                                    <span>Contact Us</span>
                                     <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
-                                <a
-                                    href="#pricing"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
-                                >
-                                    <span>Pricing & Plans</span>
-                                    <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
-                                <a
-                                    href="#faq"
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white hover:bg-slate-900 transition-colors"
-                                >
-                                    <span>FAQ & Support</span>
-                                    <ChevronRight className="w-4 h-4 text-slate-600" />
-                                </a>
+                                </Link>
                             </nav>
                         </div>
 
@@ -1005,41 +984,7 @@ export default function Welcome({ canLogin, canRegister }) {
             </section>
 
             {/* FOOTER */}
-            <footer className="border-t border-slate-800/80 bg-slate-950 py-12 px-4 sm:px-6">
-                <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-xs text-slate-400">
-                    <div className="space-y-2">
-                        <div className="flex items-center gap-2">
-                            <div className="w-6 h-6 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold text-[10px]">
-                                V
-                            </div>
-                            <span className="font-extrabold text-white text-sm">VOLTORIA.AI</span>
-                        </div>
-                        <p className="text-[11px] text-slate-500">
-                            Proprietary High-Ticket B2B Business Plan Architect & Venture Modeling Engine.
-                        </p>
-                    </div>
-
-                    <div className="flex flex-wrap items-center justify-center gap-6 font-semibold">
-                        <Link href={route('legal.terms')} className="hover:text-white transition-colors">
-                            Terms of Service
-                        </Link>
-                        <Link href={route('legal.privacy')} className="hover:text-white transition-colors">
-                            Privacy Policy
-                        </Link>
-                        <Link href={route('legal.refund')} className="hover:text-white transition-colors">
-                            Refund Policy
-                        </Link>
-                        <a href="mailto:info@voltoria.co.uk" className="hover:text-white transition-colors">
-                            Support: info@voltoria.co.uk
-                        </a>
-                    </div>
-
-                    <div className="text-right text-[11px] text-slate-500 space-y-1">
-                        <div><strong>INCHWARD LIMITED</strong> (Co. No. 16021412)</div>
-                        <div>Academy House, 11 Dunraven Place, Bridgend, UK, CF31 1JF</div>
-                    </div>
-                </div>
-            </footer>
+            <PublicFooter />
 
             {/* Floating Currency Switcher */}
             <CurrencySwitcher floating={true} />

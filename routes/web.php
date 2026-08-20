@@ -17,6 +17,13 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+// Public Pages
+Route::get('/how-it-works', fn () => Inertia::render('HowItWorks'))->name('how-it-works');
+Route::get('/about', fn () => Inertia::render('About'))->name('about');
+Route::get('/support', fn () => Inertia::render('Support'))->name('support');
+Route::get('/contact', [\App\Http\Controllers\ContactController::class, 'show'])->name('contact');
+Route::post('/contact', [\App\Http\Controllers\ContactController::class, 'submit'])->name('contact.submit');
+
 // Legal Pages
 Route::get('/terms', fn () => Inertia::render('Legal/Terms'))->name('legal.terms');
 Route::get('/privacy', fn () => Inertia::render('Legal/Privacy'))->name('legal.privacy');
