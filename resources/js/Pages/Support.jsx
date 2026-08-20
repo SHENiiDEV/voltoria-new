@@ -109,7 +109,7 @@ export default function Support() {
                             </div>
                             <h3 className="font-extrabold text-white text-base">Corporate Inquiries</h3>
                             <p className="text-xs text-slate-400 leading-relaxed">
-                                Submit a structured support ticket with guaranteed response under 4 business hours.
+                                Submit a structured support ticket with guaranteed response within 24–48 business hours.
                             </p>
                         </div>
                         <Link

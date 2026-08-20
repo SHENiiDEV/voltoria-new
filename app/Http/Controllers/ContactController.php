@@ -45,6 +45,6 @@ class ContactController extends Controller
 
         $ticketRef = 'TCK-' . strtoupper(Str::random(6));
 
-        return back()->with('success', "Your inquiry has been successfully dispatched (Ticket Ref #{$ticketRef}). Our trade and engineering team will respond within < 4 business hours.");
+        return back()->with('success', "Your inquiry has been successfully dispatched (Ticket Ref #{$ticketRef}). Our trade and engineering team will respond within 24–48 business hours.");
     }
 }

@@ -173,7 +173,7 @@ export default function Contact({ company, flash }) {
                                     <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                                     <div>
                                         <div className="font-bold text-white">Guaranteed Response SLA</div>
-                                        <div className="text-slate-400">&lt; 4 Business Hours (Monday–Friday, 08:00–18:00 GMT)</div>
+                                        <div className="text-slate-400">24–48 Business Hours (Monday–Friday, 08:00–18:00 GMT)</div>
                                     </div>
                                 </div>
                             </div>

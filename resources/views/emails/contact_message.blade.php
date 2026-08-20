@@ -25,7 +25,7 @@
                                 New Support Ticket Inquiry
                             </h1>
                             <p style="margin: 6px 0 0; font-size: 12px; color: #38bdf8; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">
-                                Trade & Engineering Help Desk (SLA &lt; 4h)
+                                Trade & Engineering Help Desk (SLA 24–48h)
                             </p>
                         </td>
                     </tr>
