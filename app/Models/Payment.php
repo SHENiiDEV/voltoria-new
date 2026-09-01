@@ -46,12 +46,18 @@ class Payment extends Model
         }
 
         $amount = (float) $this->amount;
-        if ($amount >= 1499) {
-            return 'Enterprise White-Label Memorandum Package (€1,499)';
-        } elseif ($amount >= 499) {
-            return 'Pro Venture Institutional Memorandum (€499)';
+        if ($amount >= 6999) {
+            return 'Enterprise Sovereign White-Label Suite (€6,999)';
+        } elseif ($amount >= 4299) {
+            return 'Institutional VC Syndicate Suite (€4,299)';
+        } elseif ($amount >= 2499) {
+            return 'Series A Scaleup Dossier Package (€2,499)';
+        } elseif ($amount >= 1489) {
+            return 'Pro Venture Institutional Memorandum (€1,489)';
+        } elseif ($amount >= 989) {
+            return 'Seed Growth Memorandum Package (€989)';
         }
 
-        return 'Starter Business Brief Package (€149)';
+        return 'Starter Concept Brief Package (€589)';
     }
 }

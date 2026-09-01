@@ -6,11 +6,11 @@ export default function WalletTopUpModal({ isOpen, onClose, currentBalance = 0 }
     if (!isOpen) return null;
 
     const { data, setData, post, processing, errors, reset } = useForm({
-        amount: 499,
+        amount: 1489,
         reference: '',
     });
 
-    const PRESET_AMOUNTS = [149, 499, 1499];
+    const PRESET_AMOUNTS = [589, 989, 1489, 2499, 4299, 6999];
 
     const handleSubmit = (e) => {
         e.preventDefault();

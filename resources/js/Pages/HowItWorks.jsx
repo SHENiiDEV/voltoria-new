@@ -182,49 +182,94 @@ export default function HowItWorks() {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {/* Starter */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* 1. Starter */}
                         <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
                             <div className="space-y-3">
-                                <span className="text-xs font-bold text-slate-400 uppercase">Starter Dossier</span>
-                                <div className="text-3xl font-extrabold text-white">{format(149)}</div>
+                                <span className="text-xs font-bold text-slate-400 uppercase">Starter Concept Brief</span>
+                                <div className="text-3xl font-extrabold text-white">{format(589)}</div>
                                 <p className="text-xs text-slate-400">Concept verification, initial factory scan & TAM sizing.</p>
                             </div>
                             <Link
-                                href={route('projects.create')}
+                                href={route('projects.create', { tier: 'starter' })}
                                 className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-colors"
                             >
-                                Select Starter
+                                Select Starter ({format(589)})
                             </Link>
                         </div>
 
-                        {/* Pro */}
-                        <div className="bg-gradient-to-b from-indigo-950/60 to-slate-900 border-2 border-indigo-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl shadow-indigo-500/20 scale-105">
+                        {/* 2. Seed */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
                             <div className="space-y-3">
-                                <span className="text-xs font-bold text-indigo-400 uppercase">Pro Venture Dossier (Best Value)</span>
-                                <div className="text-3xl font-extrabold text-white">{format(499)}</div>
+                                <span className="text-xs font-bold text-indigo-400 uppercase">Seed Growth Model</span>
+                                <div className="text-3xl font-extrabold text-white">{format(989)}</div>
+                                <p className="text-xs text-slate-400">4-page institutional brief with 3-year P&L forecast.</p>
+                            </div>
+                            <Link
+                                href={route('projects.create', { tier: 'seed' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-colors"
+                            >
+                                Select Seed ({format(989)})
+                            </Link>
+                        </div>
+
+                        {/* 3. Pro */}
+                        <div className="bg-gradient-to-b from-indigo-950/60 to-slate-900 border-2 border-indigo-500 rounded-3xl p-6 flex flex-col justify-between shadow-2xl shadow-indigo-500/20 lg:scale-105">
+                            <div className="space-y-3">
+                                <span className="text-xs font-bold text-indigo-400 uppercase">Pro Venture Memorandum (Best Value)</span>
+                                <div className="text-3xl font-extrabold text-white">{format(1489)}</div>
                                 <p className="text-xs text-slate-300">Complete 6-page institutional PDF with 3-year P&L and RFQ scripts.</p>
                             </div>
                             <Link
-                                href={route('projects.create')}
+                                href={route('projects.create', { tier: 'pro' })}
                                 className="mt-6 block w-full py-3 text-center rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/25 transition-all"
                             >
-                                Select Pro Plan
+                                Select Pro Plan ({format(1489)})
                             </Link>
                         </div>
 
-                        {/* Enterprise */}
+                        {/* 4. Scaleup */}
                         <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
                             <div className="space-y-3">
-                                <span className="text-xs font-bold text-cyan-400 uppercase">Enterprise White-Label</span>
-                                <div className="text-3xl font-extrabold text-white">{format(1499)}</div>
-                                <p className="text-xs text-slate-400">Full institutional consulting package with multi-variant exports.</p>
+                                <span className="text-xs font-bold text-cyan-400 uppercase">Series A Scaleup Dossier</span>
+                                <div className="text-3xl font-extrabold text-white">{format(2499)}</div>
+                                <p className="text-xs text-slate-400">8-page deep-dive dossier with Cap Table & multi-scenario models.</p>
                             </div>
                             <Link
-                                href={route('projects.create')}
+                                href={route('projects.create', { tier: 'scaleup' })}
                                 className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-colors"
                             >
-                                Select Enterprise
+                                Select Scaleup ({format(2499)})
+                            </Link>
+                        </div>
+
+                        {/* 5. Syndicate */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
+                            <div className="space-y-3">
+                                <span className="text-xs font-bold text-purple-400 uppercase">Institutional VC Syndicate</span>
+                                <div className="text-3xl font-extrabold text-white">{format(4299)}</div>
+                                <p className="text-xs text-slate-400">Complete due diligence investment suite & customs freight modeling.</p>
+                            </div>
+                            <Link
+                                href={route('projects.create', { tier: 'syndicate' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-colors"
+                            >
+                                Select Syndicate ({format(4299)})
+                            </Link>
+                        </div>
+
+                        {/* 6. Enterprise */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-6 flex flex-col justify-between hover:border-slate-700 transition-all">
+                            <div className="space-y-3">
+                                <span className="text-xs font-bold text-emerald-400 uppercase">Enterprise Sovereign White-Label</span>
+                                <div className="text-3xl font-extrabold text-white">{format(6999)}</div>
+                                <p className="text-xs text-slate-400">Full institutional consulting package with white-label SLA support.</p>
+                            </div>
+                            <Link
+                                href={route('projects.create', { tier: 'enterprise' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-colors"
+                            >
+                                Select Enterprise ({format(6999)})
                             </Link>
                         </div>
                     </div>

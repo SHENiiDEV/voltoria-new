@@ -7,11 +7,12 @@ export default function PublicFooter() {
             <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 items-start text-xs text-slate-400">
                 {/* Brand & Description */}
                 <div className="space-y-3 md:col-span-1">
-                    <Link href="/" className="flex items-center gap-2">
-                        <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white font-bold text-xs">
-                            V
-                        </div>
-                        <span className="font-extrabold text-white text-base tracking-tight">VOLTORIA.AI</span>
+                    <Link href="/" className="inline-block hover:opacity-90 transition-opacity">
+                        <img 
+                            src="/images/logo.png" 
+                            alt="VOLTORIA.AI" 
+                            className="h-9 w-auto rounded-lg object-contain shadow-sm" 
+                        />
                     </Link>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
                         High-Ticket Business Plan Architect & Institutional Supply Chain & Venture Intelligence Engine.

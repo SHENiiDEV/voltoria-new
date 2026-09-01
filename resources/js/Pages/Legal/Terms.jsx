@@ -55,7 +55,7 @@ export default function Terms() {
                         <FileText className="w-5 h-5" /> 2. High-Ticket B2B Service Description
                     </div>
                     <p className="text-sm text-slate-300 leading-relaxed">
-                        Voltoria AI provides automated B2B business plan architecture, 6-page institutional investment memorandum generation, market sizing models (TAM/SAM/SOM), unit economics calculations (CAC/LTV), and 3-Year Income Statements (P&L). Services are structured under tier pricing models (€149 Starter, €499 Pro Venture, €1,499 Enterprise).
+                        Voltoria AI provides automated B2B business plan architecture, 6-page institutional investment memorandum generation, market sizing models (TAM/SAM/SOM), unit economics calculations (CAC/LTV), and 3-Year Income Statements (P&L). Services are structured under tier pricing models (ranging from €589 Starter to €6,999 Enterprise Sovereign).
                     </p>
                 </section>
 

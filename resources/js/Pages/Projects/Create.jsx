@@ -19,19 +19,22 @@ export default function Create({ auth, wallet_balance = 0 }) {
     const [showTopUpModal, setShowTopUpModal] = useState(false);
 
     const TIER_PRICES = {
-        starter: 149,
-        pro: 499,
-        enterprise: 1499,
+        starter: 589,
+        seed: 989,
+        pro: 1489,
+        scaleup: 2499,
+        syndicate: 4299,
+        enterprise: 6999,
     };
 
-    const selectedPrice = TIER_PRICES[data.tier] || 499;
+    const selectedPrice = TIER_PRICES[data.tier] || 1489;
     const hasEnoughBalance = (parseFloat(wallet_balance) || 0) >= selectedPrice;
 
     const PRESETS = [
         {
             label: "Startup Visa Memorandum",
             title: "Voltoria AI - European Startup Visa Application",
-            prompt: "We are building Voltoria AI, an automated business plan architect for founders and SME applicants. We target high-ticket €149-€1499 pricing per generated investment document. Our primary market is European startup visa applicants and tech founders looking for 30-second investor memorandums with 3-year P&L, unit economics (CAC/LTV), and market TAM/SAM/SOM breakdown."
+            prompt: "We are building Voltoria AI, an automated business plan architect for founders and SME applicants. We target high-ticket €589-€6999 pricing per generated investment document. Our primary market is European startup visa applicants and tech founders looking for 30-second investor memorandums with 3-year P&L, unit economics (CAC/LTV), and market TAM/SAM/SOM breakdown."
         },
         {
             label: "B2B SaaS Seed Round",
@@ -169,25 +172,43 @@ export default function Create({ auth, wallet_balance = 0 }) {
                         {/* Tier Selector */}
                         <div>
                             <label className="block text-sm font-bold text-slate-200 mb-3">Select Document Tier</label>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <label className={`p-4 rounded-xl border cursor-pointer transition-all ${data.tier === 'starter' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'starter' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
                                     <input type="radio" name="tier" value="starter" checked={data.tier === 'starter'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
-                                    <div className="font-bold text-sm text-white">Starter</div>
-                                    <div className="text-xs text-slate-400 mt-1">€149 — Single Generation</div>
+                                    <div className="font-bold text-sm text-white">Starter Brief</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€589 — Concept Validation</div>
                                 </label>
 
-                                <label className={`p-4 rounded-xl border cursor-pointer transition-all ${data.tier === 'pro' ? 'bg-indigo-950/40 border-indigo-500 text-white shadow-lg shadow-indigo-500/10' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'seed' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                                    <input type="radio" name="tier" value="seed" checked={data.tier === 'seed'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
+                                    <div className="font-bold text-sm text-white">Seed Growth</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€989 — 4-Page Financial Model</div>
+                                </label>
+
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'pro' ? 'bg-indigo-950/40 border-indigo-500 text-white shadow-lg shadow-indigo-500/10' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
                                     <input type="radio" name="tier" value="pro" checked={data.tier === 'pro'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
                                     <div className="font-bold text-sm text-white flex items-center justify-between">
-                                        Pro Venture <span className="text-[10px] bg-indigo-500 text-white px-2 py-0.5 rounded-full uppercase">Popular</span>
+                                        Pro Venture <span className="text-[9px] bg-indigo-500 text-white px-1.5 py-0.5 rounded-full uppercase">Popular</span>
                                     </div>
-                                    <div className="text-xs text-slate-400 mt-1">€499 — Full Investor Memorandum</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€1,489 — 6-Page Memorandum</div>
                                 </label>
 
-                                <label className={`p-4 rounded-xl border cursor-pointer transition-all ${data.tier === 'enterprise' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'scaleup' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                                    <input type="radio" name="tier" value="scaleup" checked={data.tier === 'scaleup'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
+                                    <div className="font-bold text-sm text-white">Series A Scaleup</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€2,499 — 8-Page Deep-Dive</div>
+                                </label>
+
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'syndicate' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
+                                    <input type="radio" name="tier" value="syndicate" checked={data.tier === 'syndicate'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
+                                    <div className="font-bold text-sm text-white">VC Syndicate</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€4,299 — Due Diligence Suite</div>
+                                </label>
+
+                                <label className={`p-3.5 rounded-xl border cursor-pointer transition-all ${data.tier === 'enterprise' ? 'bg-indigo-950/40 border-indigo-500 text-white' : 'bg-slate-950 border-slate-800 text-slate-400'}`}>
                                     <input type="radio" name="tier" value="enterprise" checked={data.tier === 'enterprise'} onChange={(e) => setData('tier', e.target.value)} className="sr-only" />
-                                    <div className="font-bold text-sm text-white">Enterprise</div>
-                                    <div className="text-xs text-slate-400 mt-1">€1,499 — White-Label Advisory</div>
+                                    <div className="font-bold text-sm text-white">Enterprise Sovereign</div>
+                                    <div className="text-xs text-slate-400 mt-0.5">€6,999 — White-Label Suite</div>
                                 </label>
                             </div>
                         </div>

@@ -44,7 +44,7 @@ class VoltoriaPlanTest extends TestCase
 
         $this->assertDatabaseHas('payments', [
             'user_id' => $user->id,
-            'amount' => 499.00,
+            'amount' => 1489.00,
             'status' => 'pending',
         ]);
 

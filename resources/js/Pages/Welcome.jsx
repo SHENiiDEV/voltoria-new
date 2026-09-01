@@ -145,7 +145,7 @@ const FAQS = [
     },
     {
         q: "How does the Profile Wallet balance and auto-deduction work?",
-        a: "You can top up your wallet balance in advance (€149, €499, €1,499 or any custom amount). Whenever you create a new brief, the system instantly deducts the tier price and immediately unlocks your un-watermarked 6-page PDF without waiting for invoice approval."
+        a: "You can top up your wallet balance in advance (€589, €989, €1,489, €2,499, €4,299, €6,999 or any custom amount). Whenever you create a new brief, the system instantly deducts the tier price and immediately unlocks your un-watermarked 6-page PDF without waiting for invoice approval."
     },
     {
         q: "Can I download an official VAT / tax invoice for my company expenses?",
@@ -208,17 +208,11 @@ export default function Welcome({ canLogin, canRegister }) {
             <nav className="border-b border-slate-800/80 backdrop-blur-xl sticky top-0 z-40 bg-slate-950/85">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                        </div>
-                        <div>
-                            <span className="text-lg sm:text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
-                                VOLTORIA<span className="text-indigo-400 font-light">.AI</span>
-                            </span>
-                            <span className="hidden md:inline-block ml-2 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
-                                Venture Architect 2.0
-                            </span>
-                        </div>
+                        <img 
+                            src="/images/logo.png" 
+                            alt="VOLTORIA.AI — Venture Architect 2.0" 
+                            className="h-9 sm:h-10 w-auto rounded-xl object-contain shadow-md" 
+                        />
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -284,12 +278,11 @@ export default function Welcome({ canLogin, canRegister }) {
                         {/* Drawer Top */}
                         <div className="space-y-6">
                             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20">
-                                        <Sparkles className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-base font-extrabold text-white">VOLTORIA.AI</span>
-                                </div>
+                                <img 
+                                    src="/images/logo.png" 
+                                    alt="VOLTORIA.AI" 
+                                    className="h-8 w-auto rounded-lg object-contain" 
+                                />
                                 <button
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
@@ -866,83 +859,159 @@ export default function Welcome({ canLogin, canRegister }) {
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {/* Starter Brief */}
-                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between hover:border-slate-700 transition-all">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* 1. Starter Brief */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between hover:border-slate-700 transition-all">
                             <div className="space-y-4">
-                                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Starter Brief</span>
-                                <div className="text-4xl font-extrabold text-white">
-                                    {format(149)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-slate-400">01. Starter Concept Brief</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(589)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
                                 </div>
-                                <p className="text-xs text-slate-400">Ideal for initial concept validation and accelerator applications.</p>
+                                <p className="text-xs text-slate-400">Ideal for early concept validation, accelerator pitch teasers, and initial TAM sizing.</p>
                                 
-                                <ul className="space-y-2.5 text-xs text-slate-300 pt-4 border-t border-slate-800">
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Full Executive Summary</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Market TAM/SAM/SOM Sizing</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400" /> Official B2B Tax Invoice</li>
+                                <ul className="space-y-2 text-xs text-slate-300 pt-3 border-t border-slate-800">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> Full Executive Summary</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> Market TAM/SAM/SOM Sizing</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> Problem-Solution Architecture</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> Official B2B Tax Invoice</li>
                                 </ul>
                             </div>
 
                             <Link
-                                href={route('projects.create')}
-                                className="mt-8 block w-full py-3.5 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                                href={route('projects.create', { tier: 'starter' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
                             >
-                                Select Starter ({format(149)})
+                                Select Starter ({format(589)})
                             </Link>
                         </div>
 
-                        {/* Pro Venture Memorandum (Featured) */}
-                        <div className="bg-gradient-to-b from-indigo-950/60 via-slate-900 to-slate-950 border-2 border-indigo-500 rounded-3xl p-8 flex flex-col justify-between shadow-2xl shadow-indigo-500/20 relative scale-105">
-                            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white text-[10px] font-extrabold uppercase tracking-wider shadow-lg">
-                                Most Popular &bull; VC Ready
+                        {/* 2. Seed Growth */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between hover:border-slate-700 transition-all">
+                            <div className="space-y-4">
+                                <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">02. Seed Growth Model</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(989)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                </div>
+                                <p className="text-xs text-slate-400">Structured for pre-seed and seed rounds with detailed financial unit economics.</p>
+                                
+                                <ul className="space-y-2 text-xs text-slate-300 pt-3 border-t border-slate-800">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> 4-Page Institutional Dossier</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> 3-Year Income Statement (P&L)</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> CAC / LTV Unit Economics Matrix</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-indigo-400 shrink-0" /> Competitor Differentiation Matrix</li>
+                                </ul>
+                            </div>
+
+                            <Link
+                                href={route('projects.create', { tier: 'seed' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                            >
+                                Select Seed ({format(989)})
+                            </Link>
+                        </div>
+
+                        {/* 3. Pro Venture (Featured) */}
+                        <div className="bg-gradient-to-b from-indigo-950/70 via-slate-900 to-slate-950 border-2 border-indigo-500 rounded-3xl p-7 flex flex-col justify-between shadow-2xl shadow-indigo-500/20 relative lg:scale-105">
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3.5 py-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white text-[9px] font-extrabold uppercase tracking-wider shadow-lg">
+                                Most Popular &bull; VC & Visa Ready
                             </div>
 
                             <div className="space-y-4">
-                                <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">Pro Venture Memorandum</span>
-                                <div className="text-4xl font-extrabold text-white">
-                                    {format(499)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-indigo-400">03. Pro Venture Memorandum</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(1489)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
                                 </div>
                                 <p className="text-xs text-slate-300">Complete 6-page institutional memorandum for VC funding & Visa endorsement.</p>
                                 
-                                <ul className="space-y-2.5 text-xs text-slate-200 pt-4 border-t border-indigo-500/30">
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> <strong>6-Page Un-watermarked PDF</strong></li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> <strong>3-Year Quantified P&L Model</strong></li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> <strong>CAC / LTV Unit Economics Matrix</strong></li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Quarterly GTM Milestones Roadmap</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400" /> Instant VAT PDF Invoice Emailed</li>
+                                <ul className="space-y-2 text-xs text-slate-200 pt-3 border-t border-indigo-500/30">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> <strong>6-Page Un-watermarked PDF</strong></li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> <strong>3-Year Quantified P&L Model</strong></li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> <strong>CAC / LTV Unit Economics Matrix</strong></li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Quarterly GTM Milestones Roadmap</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Factory Negotiation Scripts (RFQ)</li>
                                 </ul>
                             </div>
 
                             <Link
-                                href={route('projects.create')}
-                                className="mt-8 block w-full py-4 text-center rounded-xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/30 transition-all hover:scale-[1.02]"
+                                href={route('projects.create', { tier: 'pro' })}
+                                className="mt-6 block w-full py-3.5 text-center rounded-xl bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 hover:opacity-95 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-indigo-500/30 transition-all hover:scale-[1.02]"
                             >
-                                Architect Pro Plan ({format(499)})
+                                Architect Pro Plan ({format(1489)})
                             </Link>
                         </div>
 
-                        {/* Enterprise White-Label */}
-                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between hover:border-slate-700 transition-all">
+                        {/* 4. Series A Scaleup */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between hover:border-slate-700 transition-all">
                             <div className="space-y-4">
-                                <span className="text-xs font-bold uppercase tracking-wider text-cyan-400">Enterprise White-Label</span>
-                                <div className="text-4xl font-extrabold text-white">
-                                    {format(1499)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                <span className="text-xs font-bold uppercase tracking-wider text-cyan-400">04. Series A Scaleup Dossier</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(2499)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
                                 </div>
-                                <p className="text-xs text-slate-400">For venture advisory firms, accelerators, and corporate consulting.</p>
+                                <p className="text-xs text-slate-400">Comprehensive 8-page dossier with multi-scenario financial forecasts & Cap Table.</p>
                                 
-                                <ul className="space-y-2.5 text-xs text-slate-300 pt-4 border-t border-slate-800">
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Everything in Pro Venture Plan</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Custom White-Label Branding</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Multiple Variant Export Licenses</li>
-                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400" /> Dedicated Corporate SLA Support</li>
+                                <ul className="space-y-2 text-xs text-slate-300 pt-3 border-t border-slate-800">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> 8-Page Deep-Dive Dossier</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Base / Bull / Bear Scenario Models</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Cap Table & Equity Dilution Schedule</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-cyan-400 shrink-0" /> Tier-1 Factory Due Diligence</li>
                                 </ul>
                             </div>
 
                             <Link
-                                href={route('projects.create')}
-                                className="mt-8 block w-full py-3.5 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                                href={route('projects.create', { tier: 'scaleup' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
                             >
-                                Select Enterprise ({format(1499)})
+                                Select Scaleup ({format(2499)})
+                            </Link>
+                        </div>
+
+                        {/* 5. Institutional Syndicate */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between hover:border-slate-700 transition-all">
+                            <div className="space-y-4">
+                                <span className="text-xs font-bold uppercase tracking-wider text-purple-400">05. Institutional Syndicate</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(4299)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                </div>
+                                <p className="text-xs text-slate-400">For angel syndicates, micro-VCs, and cross-border commercial tenders.</p>
+                                
+                                <ul className="space-y-2 text-xs text-slate-300 pt-3 border-t border-slate-800">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Full Due Diligence Investment Pack</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Customs, Tariffs & Sea Freight Modeling</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Comprehensive Risk Governance Matrix</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-purple-400 shrink-0" /> Multi-Variant Export Licenses</li>
+                                </ul>
+                            </div>
+
+                            <Link
+                                href={route('projects.create', { tier: 'syndicate' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                            >
+                                Select Syndicate ({format(4299)})
+                            </Link>
+                        </div>
+
+                        {/* 6. Enterprise Sovereign */}
+                        <div className="bg-slate-900/60 border border-slate-800 rounded-3xl p-7 flex flex-col justify-between hover:border-slate-700 transition-all">
+                            <div className="space-y-4">
+                                <span className="text-xs font-bold uppercase tracking-wider text-emerald-400">06. Enterprise Sovereign</span>
+                                <div className="text-3xl sm:text-4xl font-extrabold text-white">
+                                    {format(6999)} <span className="text-xs font-normal text-slate-500">/ one-off</span>
+                                </div>
+                                <p className="text-xs text-slate-400">For corporate advisory firms, accelerators, and private equity offices.</p>
+                                
+                                <ul className="space-y-2 text-xs text-slate-300 pt-3 border-t border-slate-800">
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Full White-Label Architecture</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Dedicated Financial Analyst Review</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> Custom API & Data Integration</li>
+                                    <li className="flex items-center gap-2"><Check className="w-4 h-4 text-emerald-400 shrink-0" /> 24/7 Corporate SLA Support Desk</li>
+                                </ul>
+                            </div>
+
+                            <Link
+                                href={route('projects.create', { tier: 'enterprise' })}
+                                className="mt-6 block w-full py-3 text-center rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs uppercase tracking-wider transition-all"
+                            >
+                                Select Enterprise ({format(6999)})
                             </Link>
                         </div>
                     </div>

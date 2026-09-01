@@ -29,17 +29,11 @@ export default function PublicNavbar() {
         <nav className="border-b border-slate-800/80 backdrop-blur-xl sticky top-0 z-40 bg-slate-950/85">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/25">
-                        <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
-                    </div>
-                    <div>
-                        <span className="text-lg sm:text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
-                            VOLTORIA<span className="text-indigo-400 font-light">.AI</span>
-                        </span>
-                        <span className="hidden md:inline-block ml-2 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
-                            Venture Architect 2.0
-                        </span>
-                    </div>
+                    <img 
+                        src="/images/logo.png" 
+                        alt="VOLTORIA.AI — Venture Architect 2.0" 
+                        className="h-8 sm:h-10 w-auto rounded-xl object-contain shadow-md" 
+                    />
                 </Link>
 
                 {/* Desktop Navigation */}
@@ -103,12 +97,11 @@ export default function PublicNavbar() {
                         
                         <div className="space-y-6">
                             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <div className="flex items-center gap-2.5">
-                                    <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-indigo-600 via-blue-500 to-cyan-400 flex items-center justify-center shadow-md shadow-indigo-500/20">
-                                        <Sparkles className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-base font-extrabold text-white">VOLTORIA.AI</span>
-                                </div>
+                                <img 
+                                    src="/images/logo.png" 
+                                    alt="VOLTORIA.AI" 
+                                    className="h-8 w-auto rounded-lg object-contain" 
+                                />
                                 <button
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"

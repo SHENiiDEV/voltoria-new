@@ -26,8 +26,8 @@ const SUPPORT_FAQS = [
         a: "Yes. All projects remain securely stored in your personal Dashboard. You can revisit your project at any time, copy JSON structured models, export new PDF variants, or run updated parameters."
     },
     {
-        q: "What is the difference between Starter (€149), Pro (€499), and Enterprise (€1,499)?",
-        a: "Starter (€149) provides concept validation, TAM sizing, and executive summary. Pro (€499) unlocks the full 6-page institutional PDF with 3-year P&L, CAC/LTV unit economics, and manufacturer negotiation scripts. Enterprise (€1,499) provides white-labeling, multi-variant licenses, and dedicated SLA trade support."
+        q: "What is the difference between our 6 pricing tiers (€589 to €6,999)?",
+        a: "Starter (€589) provides concept validation & TAM sizing. Seed (€989) adds 4-page P&L models. Pro Venture (€1,489) unlocks the 6-page institutional PDF with unit economics & RFQ scripts. Scaleup (€2,499) adds 8-page multi-scenario modeling & Cap Table. Syndicate (€4,299) adds customs freight & due diligence suites. Enterprise (€6,999) provides full white-label architecture & 24/7 dedicated SLA support."
     },
     {
         q: "What format are the final documents delivered in?",

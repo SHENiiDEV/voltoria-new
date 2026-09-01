@@ -91,18 +91,24 @@ class ProjectController extends Controller
         $user = $request->user();
         $tier = $validated['tier'] ?? 'pro';
         $amounts = [
-            'starter' => 149.00,
-            'pro' => 499.00,
-            'enterprise' => 1499.00,
+            'starter' => 589.00,
+            'seed' => 989.00,
+            'pro' => 1489.00,
+            'scaleup' => 2499.00,
+            'syndicate' => 4299.00,
+            'enterprise' => 6999.00,
         ];
         $serviceNames = [
-            'starter' => 'Starter Business Brief Package (€149)',
-            'pro' => 'Pro Venture Institutional Memorandum (€499)',
-            'enterprise' => 'Enterprise White-Label Package (€1,499)',
+            'starter' => 'Starter Concept Brief Package (€589)',
+            'seed' => 'Seed Growth Memorandum Package (€989)',
+            'pro' => 'Pro Venture Institutional Memorandum (€1,489)',
+            'scaleup' => 'Series A Scaleup Dossier Package (€2,499)',
+            'syndicate' => 'Institutional VC Syndicate Suite (€4,299)',
+            'enterprise' => 'Enterprise Sovereign White-Label Suite (€6,999)',
         ];
 
-        $amount = $amounts[$tier] ?? 499.00;
-        $serviceName = $serviceNames[$tier] ?? 'Pro Venture Institutional Memorandum (€499)';
+        $amount = $amounts[$tier] ?? 1489.00;
+        $serviceName = $serviceNames[$tier] ?? 'Pro Venture Institutional Memorandum (€1,489)';
 
         $hasEnoughBalance = $user->hasBalance($amount);
         $paymentStatus = $hasEnoughBalance ? 'paid' : 'pending';
