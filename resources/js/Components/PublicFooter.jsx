@@ -8,11 +8,9 @@ export default function PublicFooter() {
                 {/* Brand & Description */}
                 <div className="space-y-3 md:col-span-1">
                     <Link href="/" className="inline-block hover:opacity-90 transition-opacity">
-                        <img 
-                            src="/images/logo.png" 
-                            alt="VOLTORIA.AI" 
-                            className="h-12 sm:h-14 w-auto object-contain drop-shadow-md" 
-                        />
+                        <span className="font-extrabold text-white text-base tracking-tight">
+                            VOLTORIA<span className="text-indigo-400 font-light">.AI</span>
+                        </span>
                     </Link>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
                         High-Ticket Business Plan Architect & Institutional Supply Chain & Venture Intelligence Engine.

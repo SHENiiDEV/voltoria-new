@@ -206,13 +206,16 @@ export default function Welcome({ canLogin, canRegister }) {
 
             {/* Top Header Navigation */}
             <nav className="border-b border-slate-800/80 backdrop-blur-xl sticky top-0 z-40 bg-slate-950/85">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
-                        <img 
-                            src="/images/logo.png" 
-                            alt="VOLTORIA.AI — Venture Architect 2.0" 
-                            className="h-12 sm:h-16 lg:h-20 w-auto object-contain drop-shadow-xl py-1" 
-                        />
+                        <div>
+                            <span className="text-lg sm:text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
+                                VOLTORIA<span className="text-indigo-400 font-light">.AI</span>
+                            </span>
+                            <span className="hidden md:inline-block ml-2 text-[10px] uppercase font-bold text-slate-500 tracking-wider">
+                                Venture Architect 2.0
+                            </span>
+                        </div>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -278,11 +281,9 @@ export default function Welcome({ canLogin, canRegister }) {
                         {/* Drawer Top */}
                         <div className="space-y-6">
                             <div className="flex items-center justify-between border-b border-slate-800 pb-4">
-                                <img 
-                                    src="/images/logo.png" 
-                                    alt="VOLTORIA.AI" 
-                                    className="h-11 sm:h-14 w-auto object-contain drop-shadow-md" 
-                                />
+                                <span className="text-base font-extrabold tracking-tight text-white">
+                                    VOLTORIA<span className="text-indigo-400 font-light">.AI</span>
+                                </span>
                                 <button
                                     onClick={() => setMobileMenuOpen(false)}
                                     className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-900 transition-colors"
