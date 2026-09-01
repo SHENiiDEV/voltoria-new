@@ -206,12 +206,12 @@ export default function Welcome({ canLogin, canRegister }) {
 
             {/* Top Header Navigation */}
             <nav className="border-b border-slate-800/80 backdrop-blur-xl sticky top-0 z-40 bg-slate-950/85">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 sm:h-24 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-3 hover:opacity-90 transition-opacity">
                         <img 
                             src="/images/logo.png" 
                             alt="VOLTORIA.AI — Venture Architect 2.0" 
-                            className="h-9 sm:h-10 w-auto rounded-xl object-contain shadow-md" 
+                            className="h-12 sm:h-16 lg:h-20 w-auto object-contain drop-shadow-xl py-1" 
                         />
                     </Link>
 
@@ -281,7 +281,7 @@ export default function Welcome({ canLogin, canRegister }) {
                                 <img 
                                     src="/images/logo.png" 
                                     alt="VOLTORIA.AI" 
-                                    className="h-8 w-auto rounded-lg object-contain" 
+                                    className="h-11 sm:h-14 w-auto object-contain drop-shadow-md" 
                                 />
                                 <button
                                     onClick={() => setMobileMenuOpen(false)}

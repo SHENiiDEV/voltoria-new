@@ -6,7 +6,7 @@ export default function ApplicationLogo({ className = '' }) {
             <img 
                 src="/images/logo.png" 
                 alt="VOLTORIA.AI — Venture Architect 2.0" 
-                className="h-9 sm:h-10 w-auto rounded-xl object-contain shadow-md shadow-indigo-500/10 hover:opacity-95 transition-opacity" 
+                className="h-12 sm:h-16 w-auto object-contain drop-shadow-lg hover:opacity-95 transition-opacity" 
             />
         </div>
     );

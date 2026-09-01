@@ -11,7 +11,7 @@ export default function PublicFooter() {
                         <img 
                             src="/images/logo.png" 
                             alt="VOLTORIA.AI" 
-                            className="h-9 w-auto rounded-lg object-contain shadow-sm" 
+                            className="h-12 sm:h-14 w-auto object-contain drop-shadow-md" 
                         />
                     </Link>
                     <p className="text-[11px] text-slate-400 leading-relaxed">
